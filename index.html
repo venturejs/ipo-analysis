@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPO AI 분석 시스템</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif;
+            line-height: 1.6;
+            color: #191f28;
+            background: linear-gradient(135deg, #f8f9fc 0%, #f1f5f9 100%);
+            font-size: 16px;
+        }
+
+        /* 네비게이션 */
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6b7684;
+        }
+
+        .nav-item.active {
+            background: #3182f6;
+            color: white;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #f1f5f9;
+            color: #3182f6;
+        }
+
+        .time-info {
+            font-size: 12px;
+            color: #6b7684;
+            text-align: right;
+        }
+
+        .current-time {
+            font-weight: 600;
+            color: #3182f6;
+        }
+
+        /* 모바일 메뉴 */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #3182f6;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 16px 20px;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav-item {
+            display: block;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6b7684;
+            text-align: center;
+        }
+
+        .mobile-nav-item.active {
+            background: #3182f6;
+            color: white;
+        }
+
+        /* 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* 페이지 섹션 */
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* 설명 페이지 스타일 */
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .main-title {
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            color: white;
+            padding: 28px 32px;
+            border-radius: 16px;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(49, 130, 246, 0.3);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .main-title:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(49, 130, 246, 0.4);
+        }
+
+        .subtitle {
+            color: #6b7684;
+            font-size: 16px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f3f4;
+        }
+
+        .overview-text {
+            background: linear-gradient(135deg, #f8f9fc, #e3f2fd);
+            color: #1976d2;
+            padding: 20px 24px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.7;
+            border: 2px solid #e3f2fd;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overview-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .plus-divider {
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .plus-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            color: white;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 12px rgba(49, 130, 246, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .methodology-text {
+            background: linear-gradient(135deg, #f0f4ff, #e8f4f8);
+            color: #1976d2;
+            padding: 20px 24px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.7;
+            border: 2px solid #e1e8ff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, white, #f8fafc);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3182f6, #1d4ed8, #3182f6);
+            background-size: 200% 100%;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(49, 130, 246, 0.15);
+        }
+
+        .stat-number {
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #6b7684;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .framework-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            color: #191f28;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            text-align: center;
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f3f4;
+            transition: all 0.2s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-header {
+            padding: 20px 24px;
+            font-weight: 700;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -50px;
+            width: 50px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
+            transform: skewX(-20deg);
+            animation: slide 4s infinite;
+        }
+
+        @keyframes slide {
+            0%, 90%, 100% { right: -50px; }
+            10%, 80% { right: 100%; }
+        }
+
+        .category-공모정보 .category-header {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+
+        .category-기업정보 .category-header {
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+        }
+
+        .category-시장분위기 .category-header {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+        }
+
+        .category-정성분석 .category-header {
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+        }
+
+        .category-월별요인 .category-header {
+            background: linear-gradient(135deg, #00c853, #00a152);
+        }
+
+        .category-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        .indicators-list {
+            padding: 24px;
+        }
+
+        .indicator-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            color: #4e5968;
+            font-size: 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #f8f9fc;
+            gap: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .indicator-item:hover {
+            color: #3182f6;
+            transform: translateX(4px);
+        }
+
+        .indicator-item:last-child {
+            border-bottom: none;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            border-radius: 50%;
+            flex-shrink: 0;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(49, 130, 246, 0.3); }
+            100% { box-shadow: 0 0 10px rgba(49, 130, 246, 0.6); }
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f3f4;
+            margin-bottom: 24px;
+        }
+
+        .summary-title {
+            color: #191f28;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .summary-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .summary-text {
+            color: #4e5968;
+            font-size: 16px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .disclaimer {
+            background: #fef7e0;
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-top: 24px;
+        }
+
+        .disclaimer-title {
+            color: #ea580c;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .disclaimer-text {
+            color: #9a3412;
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* 분석 결과 페이지 스타일 */
+        .analysis-header {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .analysis-main-title {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .analysis-subtitle {
+            color: #6b7684;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .update-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .update-card {
+            background: linear-gradient(135deg, #f8fafc, #e3f2fd);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #e3f2fd;
+        }
+
+        .update-label {
+            font-size: 12px;
+            color: #6b7684;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .update-time {
+            font-size: 14px;
+            font-weight: 700;
+            color: #3182f6;
+        }
+
+        .stocks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .stock-report {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f3f4;
+            transition: all 0.3s ease;
+        }
+
+        .stock-report:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .stock-header {
+            background: linear-gradient(135deg, #3182f6, #1d4ed8);
+            color: white;
+            padding: 20px 24px;
+            text-align: center;
+        }
+
+        .stock-name {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .stock-date {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .decision-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin: 16px 0;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .stock-content {
+            padding: 24px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .info-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #6b7684;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #191f28;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .mood-item {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .mood-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .mood-value {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .mood-detail {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .analysis-section {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+        }
+
+        .analysis-section h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #191f28;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .reason-item, .risk-item {
+            background: #e8f5e8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .risk-item {
+            background: #ffe6e6;
+            border-left: 3px solid #f44336;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .nav-menu, .time-info {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .container {
+                padding: 20px 16px;
+            }
+
+            .main-title {
+                font-size: 20px;
+                padding: 24px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .categories-container, .stocks-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .overview-text, .methodology-text {
+                font-size: 15px;
+            }
+
+            .summary-text {
+                font-size: 15px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mood-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .update-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 애니메이션 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">📊 IPO AI 분석 시스템</div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" onclick="showPage('framework')">분석 프레임워크</div>
+                <div class="nav-item" onclick="showPage('analysis')">실시간 분석 결과</div>
+            </div>
+
+            <div class="time-info">
+                <div class="current-time" id="currentTime"></div>
+                <div style="font-size: 11px;">실시간 업데이트</div>
+            </div>
+
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-item active" onclick="showPage('framework')">분석 프레임워크</div>
+            <div class="mobile-nav-item" onclick="showPage('analysis')">실시간 분석 결과</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 분석 프레임워크 페이지 -->
+        <section id="framework" class="page-section active">
+            <div class="header">
+                <div class="main-title">
+                    엑스포네셜 IPO 종목 선별 AI공지능 모델
+                </div>
+                <div class="subtitle">
+                    AI 모델 데이터 검증 + 전문가 경험의 융합
+                </div>
+            </div>
+
+            <div class="overview-card fade-in">
+                <div class="overview-text">
+                    공모주 수요예측 투자 전문가의 투자판단 프로세스 가치 패턴수익 AI<br>
+                    <span class="accent-blue">(시장분위기 판단)</span>
+                </div>
+                
+                <div class="plus-divider">
+                    <div class="plus-icon">+</div>
+                </div>
+                
+                <div class="methodology-text">
+                    15개 핵심지표 종합분석 - 공모정보, 기업정보, 시장분위기, 월별요인 등<br>
+                    <span class="accent-blue">(2020년 이후 과거 IPO 성과 패턴 학습)</span>
+                </div>
+            </div>
+
+            <div class="stats-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">15개</div>
+                    <div class="stat-label">핵심 지표</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5개</div>
+                    <div class="stat-label">분석 영역</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4년+</div>
+                    <div class="stat-label">학습 데이터</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">AI</div>
+                    <div class="stat-label">자동 분석</div>
+                </div>
+            </div>
+
+            <div class="framework-section fade-in">
+                <div class="section-title">핵심 분석 프레임워크</div>
+                
+                <div class="categories-container">
+                    <div class="category-card category-공모정보">
+                        <div class="category-header">
+                            <div class="category-icon">1</div>
+                            공모정보 (5개 지표)
+                        </div>
+                        <div class="indicators-list">
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                공모가밴드
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                장외거래가
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                유통주식수비율
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                주관사
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                코넥스이전상장
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-card category-기업정보">
+                        <div class="category-header">
+                            <div class="category-icon">2</div>
+                            기업정보 (5개 지표)
+                        </div>
+                        <div class="indicators-list">
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                업종분류
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                최대주주지분율
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                거래소
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                기술평가등급
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                기술특례상장
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-card category-시장분위기">
+                        <div class="category-header">
+                            <div class="category-icon">3</div>
+                            시장분위기 (3개 지표)
+                        </div>
+                        <div class="indicators-list">
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                직전 공모가 결정률
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                직전 시가수익률
+                            </div>
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                직전 종가수익률
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-card category-정성분석">
+                        <div class="category-header">
+                            <div class="category-icon">4</div>
+                            정성분석 (1개 지표)
+                        </div>
+                        <div class="indicators-list">
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                리포트 및 운용역 코멘트
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-card category-월별요인">
+                        <div class="category-header">
+                            <div class="category-icon">5</div>
+                            월별요인 (1개 지표)
+                        </div>
+                        <div class="indicators-list">
+                            <div class="indicator-item">
+                                <div class="indicator-dot"></div>
+                                월별그룹
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card fade-in">
+                <div class="summary-title">
+                    <div class="summary-icon">💡</div>
+                    통합 분석 방법론
+                </div>
+                <div class="summary-text">
+                    본 AI 모델은 <span class="highlight">15개 핵심지표를 5개 영역으로 체계화</span>하여 IPO 투자 의사결정을 지원합니다. 
+                    2020년 이후 IPO 성과 패턴을 학습한 데이터 기반 분석과 전문가의 정성적 판단을 결합하여, 
+                    <span class="highlight">객관적이고 일관성 있는 투자 프레임워크</span>를 제공합니다. 
+                    특히 시장분위기 지표를 통해 공모주 시장의 전반적인 투자심리를 반영하여 
+                    보다 정교한 리스크 관리가 가능합니다.
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <div class="disclaimer-title">
+                    ⚠️ 투자 위험 고지
+                </div>
+                <div class="disclaimer-text">
+                    본 분석 모델은 과거 데이터를 기반으로 한 참고자료이며, 미래 수익을 보장하지 않습니다. 
+                    모든 투자 결정은 투자자 본인의 판단과 책임하에 이루어져야 하며, 투자에 따른 손실 위험을 충분히 고려하시기 바랍니다.
+                </div>
+            </div>
+        </section>
+
+        <!-- 실시간 분석 결과 페이지 -->
+        <section id="analysis" class="page-section">
+            <div class="analysis-header fade-in">
+                <div class="analysis-main-title">🎯 실시간 IPO 분석 결과</div>
+                <div class="analysis-subtitle">현재 수요예측 진행 중인 종목 AI 분석</div>
+                
+                <div class="update-info">
+                    <div class="update-card">
+                        <div class="update-label">분석 기준일</div>
+                        <div class="update-time">2025년 7월 28일 오후 2시</div>
+                    </div>
+                    <div class="update-card">
+                        <div class="update-label">다음 업데이트</div>
+                        <div class="update-time">2025년 7월 29일 오후 2시</div>
+                    </div>
+                    <div class="update-card">
+                        <div class="update-label">분석 완료</div>
+                        <div class="update-time">3개 종목</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stocks-container fade-in">
+                <!-- 삼양컴텍 -->
+                <div class="stock-report">
+                    <div class="stock-header">
+                        <div class="stock-name">삼양컴텍</div>
+                        <div class="stock-date">상장일: 2025년 8월</div>
+                        <div class="decision-badge">🟢 적극참여</div>
+                    </div>
+                    <div class="stock-content">
+                        <div class="info-section">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">거래소</div>
+                                    <div class="info-value">코스닥</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">업종</div>
+                                    <div class="info-value">운송장비부품</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">공모가 밴드</div>
+                                    <div class="info-value">6,600원 ~ 7,700원</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">유통비율</div>
+                                    <div class="info-value">37.12%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mood-grid">
+                            <div class="mood-item">
+                                <div class="mood-label">수요예측 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">공모가 결정: 100.0%</div>
+                            </div>
+                            <div class="mood-item">
+                                <div class="mood-label">상장 후 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">시가수익률: 95.35%</div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>✅ 주요 판단근거</h4>
+                            <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
+                            <div class="reason-item">✓ 리포트분석: 기술력 기반 성장성과 시장 확대 진출 전략이 긍정적</div>
+                            <div class="reason-item">✓ 유통비율: 37.12% (양호한 수급 구조)</div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>⚠️ 위험요인</h4>
+                            <div class="risk-item">⚠️ IPO 시장 과열로 인한 높은 기대치와 변동성</div>
+                            <div class="risk-item">⚠️ 특정 고객 의존도와 매출 집중도 리스크</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 에스엔시스 -->
+                <div class="stock-report">
+                    <div class="stock-header">
+                        <div class="stock-name">에스엔시스</div>
+                        <div class="stock-date">상장일: 2025년 8월</div>
+                        <div class="decision-badge">🟢 적극참여</div>
+                    </div>
+                    <div class="stock-content">
+                        <div class="info-section">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">거래소</div>
+                                    <div class="info-value">코스닥</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">업종</div>
+                                    <div class="info-value">조선</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">공모가 밴드</div>
+                                    <div class="info-value">27,000원 ~ 30,000원</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">유통비율</div>
+                                    <div class="info-value">37.88%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mood-grid">
+                            <div class="mood-item">
+                                <div class="mood-label">수요예측 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">공모가 결정: 100.0%</div>
+                            </div>
+                            <div class="mood-item">
+                                <div class="mood-label">상장 후 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">시가수익률: 95.35%</div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>✅ 주요 판단근거</h4>
+                            <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
+                            <div class="reason-item">✓ 리포트분석: 독점적 기술력과 특허 기반 성장성 확대</div>
+                            <div class="reason-item">✓ 유통비율: 37.88% (양호한 수급 구조)</div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>⚠️ 위험요인</h4>
+                            <div class="risk-item">⚠️ IPO 시장 과열로 인한 높은 기대치와 변동성</div>
+                            <div class="risk-item">⚠️ 특정 부문에 대한 의존도 리스크</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 지투지바이오 -->
+                <div class="stock-report">
+                    <div class="stock-header">
+                        <div class="stock-name">지투지바이오</div>
+                        <div class="stock-date">상장일: 2025년 8월</div>
+                        <div class="decision-badge">🟢 적극참여</div>
+                    </div>
+                    <div class="stock-content">
+                        <div class="info-section">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">거래소</div>
+                                    <div class="info-value">코스닥</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">업종</div>
+                                    <div class="info-value">바이오</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">공모가 밴드</div>
+                                    <div class="info-value">48,000원 ~ 58,000원</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">유통비율</div>
+                                    <div class="info-value">35.39%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mood-grid">
+                            <div class="mood-item">
+                                <div class="mood-label">수요예측 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">공모가 결정: 100.0%</div>
+                            </div>
+                            <div class="mood-item">
+                                <div class="mood-label">상장 후 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">시가수익률: 95.35%</div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>✅ 주요 판단근거</h4>
+                            <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
+                            <div class="reason-item">✓ 장외거래가: 42.6% 할인율로 매우 매력적</div>
+                            <div class="reason-item">✓ 기술력과 특허 기반 경쟁우위</div>
+                            <div class="reason-item">✓ 유통비율: 35.39%로 양호한 수급 구조</div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>⚠️ 위험요인</h4>
+                            <div class="risk-item">⚠️ IPO 시장 과열로 인한 높은 기대치 환경</div>
+                            <div class="risk-item">⚠️ 기술특례 상장 특성상 수익성 불확실성</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 현재 시간 업데이트
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const currentTimeElement = document.getElementById('currentTime');
+            if (currentTimeElement) {
+                currentTimeElement.textContent = timeString;
+            }
+        }
+
+        // 페이지 전환
+        function showPage(pageId) {
+            // 모든 페이지 숨기기
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // 선택된 페이지 보이기
+            document.getElementById(pageId).classList.add('active');
+
+            // 네비게이션 활성화 상태 변경
+            const navItems = document.querySelectorAll('.nav-item, .mobile-nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            // 클릭된 메뉴 활성화
+            event.target.classList.add('active');
+
+            // 모바일 메뉴 닫기
+            document.getElementById('mobileNav').classList.remove('active');
+
+            // 스크롤 애니메이션 다시 실행
+            setTimeout(() => {
+                observeElements();
+            }, 100);
+        }
+
+        // 모바일 메뉴 토글
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+
+        // 스크롤 애니메이션
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // 페이지 로드 시 실행
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
+            observeElements();
+        });
+
+        // 윈도우 리사이즈 시 모바일 메뉴 닫기
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileNav').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
