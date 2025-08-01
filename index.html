@@ -615,6 +615,10 @@
             color: white;
         }
 
+        .decision-badge-제한적참여 {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
         .stock-content {
             padding: 24px;
         }
@@ -711,13 +715,6 @@
         .risk-item {
             background: #ffe6e6;
             border-left: 3px solid #f44336;
-        }
-
-        .stocks-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, 350px);
-            gap: 24px;
-            justify-content: center;
         }
 
         /* 반응형 디자인 */
@@ -1003,11 +1000,11 @@
                 <div class="update-info">
                     <div class="update-card">
                         <div class="update-label">분석 기준일</div>
-                        <div class="update-time">2025년 7월 31일 오후 2시</div>
+                        <div class="update-time">2025년 8월 1일 오후 2시</div>
                     </div>
                     <div class="update-card">
                         <div class="update-label">다음 업데이트</div>
-                        <div class="update-time">2025년 8월 1일 오후 2시</div>
+                        <div class="update-time">2025년 8월 4일 오후 2시</div>
                     </div>
                     <div class="update-card">
                         <div class="update-label">분석 완료</div>
@@ -1017,64 +1014,6 @@
             </div>
 
             <div class="stocks-container fade-in">
-                <!-- 그래피 -->
-                <div class="stock-report">
-                    <div class="stock-header">
-                        <div class="stock-name">그래피</div>
-                        <div class="stock-date">상장일: 2025년 8월</div>
-                        <div class="decision-badge">🟢 적극참여</div>
-                    </div>
-                    <div class="stock-content">
-                        <div class="info-section">
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <div class="info-label">거래소</div>
-                                    <div class="info-value">코스닥</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">업종</div>
-                                    <div class="info-value">의료정밀기기</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">공모가 밴드</div>
-                                    <div class="info-value">17,000원 ~ 20,000원</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">유통비율</div>
-                                    <div class="info-value">37.74%</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mood-grid">
-                            <div class="mood-item">
-                                <div class="mood-label">수요예측 분위기</div>
-                                <div class="mood-value">뜨거움 🔥</div>
-                                <div class="mood-detail">공모가 결정: 100.0%</div>
-                            </div>
-                            <div class="mood-item">
-                                <div class="mood-label">상장 후 분위기</div>
-                                <div class="mood-value">뜨거움 🔥</div>
-                                <div class="mood-detail">시가수익률: 70.99%</div>
-                            </div>
-                        </div>
-
-                        <div class="analysis-section">
-                            <h4>✅ 주요 판단근거</h4>
-                            <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
-                            <div class="reason-item">✓ 리포트분석: 기술력 기반 성장성과 시장 확대 전망이 긍정적</div>
-                            <div class="reason-item">✓ 장외거래가: 16.7% 할인으로 매력적 진입 기회</div>
-                            <div class="reason-item">✓ 유통비율: 37.74% (양호한 수급 구조)</div>
-                        </div>
-
-                        <div class="analysis-section">
-                            <h4>⚠️ 위험요인</h4>
-                            <div class="risk-item">⚠️ IPO 시장 과열로 인한 높은 기대치 환경과 변동성 확대 가능성</div>
-                            <div class="risk-item">⚠️ 특정 요인에 대한 의존도와 시장 하락 위험 존재</div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- 에스엔시스 -->
                 <div class="stock-report">
                     <div class="stock-header">
@@ -1120,14 +1059,14 @@
                         <div class="analysis-section">
                             <h4>✅ 주요 판단근거</h4>
                             <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
-                            <div class="reason-item">✓ 리포트분석: 독점적 기술력과 성장 확대 진출 전략으로 투자 매력도 높음</div>
+                            <div class="reason-item">✓ 리포트분석: 독점적 기술력과 성장 확대 진출 전략으로 투자매력도 높음</div>
                             <div class="reason-item">✓ 유통비율: 37.88% (양호한 수급 구조)</div>
                         </div>
 
                         <div class="analysis-section">
                             <h4>⚠️ 위험요인</h4>
-                            <div class="risk-item">⚠️ IPO 시장 과열로 높은 기대치 환경에서 상장 후 조정 가능성</div>
-                            <div class="risk-item">⚠️ 특정 부문에 대한 의존도와 집중도가 높아 사업 다각화 리스크 존재</div>
+                            <div class="risk-item">⚠️ IPO 시장 과열 분위기로 높은 기대치 환경에서 상장 후 조정 가능성</div>
+                            <div class="risk-item">⚠️ 특정 부문에 대한 의존도와 집중도 리스크 존재</div>
                         </div>
                     </div>
                 </div>
@@ -1177,22 +1116,22 @@
                         <div class="analysis-section">
                             <h4>✅ 주요 판단근거</h4>
                             <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
-                            <div class="reason-item">✓ 리포트분석: 기술력 기반 성장성과 시장 확대 전망이 긍정적</div>
-                            <div class="reason-item">✓ 유통비율: 31.07% (양호한 수급 구조)</div>
+                            <div class="reason-item">✓ 리포트분석: 성장성과 기술력 기반 경쟁우위, 긍정적 투자매력도 평가</div>
+                            <div class="reason-item">✓ 유통비율: 31.07% (양호한 수급구조)</div>
                         </div>
 
                         <div class="analysis-section">
                             <h4>⚠️ 위험요인</h4>
-                            <div class="risk-item">⚠️ IPO 시장 과열로 인한 높은 기대치 환경에서 상장 후 조정 가능성</div>
-                            <div class="risk-item">⚠️ 리포트에서 언급된 사업 리스크 요인 존재</div>
+                            <div class="risk-item">⚠️ IPO 시장 과열 분위기로 인한 높은 기대치 환경과 변동성 확대 가능성</div>
+                            <div class="risk-item">⚠️ 사업 확장 과정에서의 불확실성 요인 존재</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 지투지바이오 -->
+                <!-- 제이피아이헬스케어 -->
                 <div class="stock-report">
                     <div class="stock-header">
-                        <div class="stock-name">지투지바이오</div>
+                        <div class="stock-name">제이피아이헬스케어</div>
                         <div class="stock-date">상장일: 2025년 8월</div>
                         <div class="decision-badge">🟢 적극참여</div>
                     </div>
@@ -1205,15 +1144,15 @@
                                 </div>
                                 <div class="info-item">
                                     <div class="info-label">업종</div>
-                                    <div class="info-value">바이오</div>
+                                    <div class="info-value">의료정밀기기</div>
                                 </div>
                                 <div class="info-item">
                                     <div class="info-label">공모가 밴드</div>
-                                    <div class="info-value">48,000원 ~ 58,000원</div>
+                                    <div class="info-value">16,500원 ~ 20,000원</div>
                                 </div>
                                 <div class="info-item">
                                     <div class="info-label">유통비율</div>
-                                    <div class="info-value">35.39%</div>
+                                    <div class="info-value">30.95%</div>
                                 </div>
                             </div>
                         </div>
@@ -1234,15 +1173,72 @@
                         <div class="analysis-section">
                             <h4>✅ 주요 판단근거</h4>
                             <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
-                            <div class="reason-item">✓ 장외거래가: 42.6% 할인율로 매우 매력적</div>
-                            <div class="reason-item">✓ 기술력 기반 성장성 강조하나 중립적 톤으로 신중한 접근</div>
-                            <div class="reason-item">✓ 유통비율: 35.39%로 양호한 수급 구조</div>
+                            <div class="reason-item">✓ 리포트분석: 성장성과 경쟁력 기반 긍정적 전망, 고품질 분석</div>
+                            <div class="reason-item">✓ 유통비율: 30.95% (최고 등급)</div>
                         </div>
 
                         <div class="analysis-section">
                             <h4>⚠️ 위험요인</h4>
-                            <div class="risk-item">⚠️ IPO 시장 과열로 인한 높은 기대치 환경에서 실망 위험</div>
-                            <div class="risk-item">⚠️ 바이오 업종 특성상 불확실성과 의존도 리스크 존재</div>
+                            <div class="risk-item">⚠️ IPO 시장 과열 분위기로 인한 높은 기대치 환경</div>
+                            <div class="risk-item">⚠️ 리포트에서 언급된 감소 리스크 요인</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 그래피 -->
+                <div class="stock-report">
+                    <div class="stock-header">
+                        <div class="stock-name">그래피</div>
+                        <div class="stock-date">상장일: 2025년 8월</div>
+                        <div class="decision-badge decision-badge-제한적참여">🟡 제한적참여</div>
+                    </div>
+                    <div class="stock-content">
+                        <div class="info-section">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">거래소</div>
+                                    <div class="info-value">코스닥</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">업종</div>
+                                    <div class="info-value">의료정밀기기</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">공모가 밴드</div>
+                                    <div class="info-value">17,000원 ~ 20,000원</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">유통비율</div>
+                                    <div class="info-value">37.74%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mood-grid">
+                            <div class="mood-item">
+                                <div class="mood-label">수요예측 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">공모가 결정: 100.0%</div>
+                            </div>
+                            <div class="mood-item">
+                                <div class="mood-label">상장 후 분위기</div>
+                                <div class="mood-value">뜨거움 🔥</div>
+                                <div class="mood-detail">시가수익률: 70.99%</div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>✅ 주요 판단근거</h4>
+                            <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
+                            <div class="reason-item">✓ 리포트분석: 기술력 기반 성장성은 있으나 중립적 톤으로 강한 확신 부족</div>
+                            <div class="reason-item">✓ 장외거래가: 16.7% 할인으로 매력적 진입점</div>
+                            <div class="reason-item">✓ 유통비율: 37.74% (양호한 수급 구조)</div>
+                        </div>
+
+                        <div class="analysis-section">
+                            <h4>⚠️ 위험요인</h4>
+                            <div class="risk-item">⚠️ IPO 시장 과열 분위기로 인한 높은 기대치 환경에서 실망 위험</div>
+                            <div class="risk-item">⚠️ 의존도 리스크와 하락 위험 요인이 리포트에서 지적됨</div>
                         </div>
                     </div>
                 </div>
@@ -1252,7 +1248,7 @@
                     <div class="stock-header">
                         <div class="stock-name">한라캐스트</div>
                         <div class="stock-date">상장일: 2025년 8월</div>
-                        <div class="decision-badge" style="background: linear-gradient(135deg, #f39c12, #e67e22);">🟡 제한적참여</div>
+                        <div class="decision-badge decision-badge-제한적참여">🟡 제한적참여</div>
                     </div>
                     <div class="stock-content">
                         <div class="info-section">
@@ -1292,14 +1288,14 @@
                         <div class="analysis-section">
                             <h4>✅ 주요 판단근거</h4>
                             <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
-                            <div class="reason-item">✓ 독점적 기술력과 시장점유율 보유하나 중립적 톤으로 신중 접근 필요</div>
-                            <div class="reason-item">✓ 유통비율: 37.76% (양호한 수급 구조)</div>
+                            <div class="reason-item">✓ 리포트분석: 독점적 기술력과 시장점유율 보유하나 중립적 톤으로 신중 접근 필요</div>
+                            <div class="reason-item">✓ 유통비율: 37.76% (양호한 수준)</div>
                         </div>
 
                         <div class="analysis-section">
                             <h4>⚠️ 위험요인</h4>
-                            <div class="risk-item">⚠️ IPO 시장 과열로 인한 높은 기대치 환경에서 밸류에이션 부담 가능성</div>
-                            <div class="risk-item">⚠️ 특정 부문에 대한 의존도 리스크와 하락 요인 존재</div>
+                            <div class="risk-item">⚠️ IPO 시장 과열 분위기로 인한 높은 기대치 환경에서 변동성 확대 가능성</div>
+                            <div class="risk-item">⚠️ 리포트에서 언급된 의존도 리스크와 하락 요인 존재</div>
                         </div>
                     </div>
                 </div>
