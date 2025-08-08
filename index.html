@@ -565,6 +565,52 @@
             color: #3182f6;
         }
 
+        /* 빈 상태 스타일 */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f3f4;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.6;
+        }
+
+        .empty-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #191f28;
+            margin-bottom: 16px;
+        }
+
+        .empty-description {
+            font-size: 16px;
+            color: #6b7684;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .empty-note {
+            background: linear-gradient(135deg, #f8fafc, #e3f2fd);
+            color: #1976d2;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid #e3f2fd;
+        }
+
         .stocks-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, 350px);
@@ -1000,74 +1046,30 @@
                 <div class="update-info">
                     <div class="update-card">
                         <div class="update-label">분석 기준일</div>
-                        <div class="update-time">2025년 8월 7일 오후 2시</div>
-                    </div>
-                    <div class="update-card">
-                        <div class="update-label">다음 업데이트</div>
                         <div class="update-time">2025년 8월 8일 오후 2시</div>
                     </div>
                     <div class="update-card">
+                        <div class="update-label">다음 업데이트</div>
+                        <div class="update-time">2025년 8월 11일 오후 2시</div>
+                    </div>
+                    <div class="update-card">
                         <div class="update-label">분석 완료</div>
-                        <div class="update-time">1개 종목</div>
+                        <div class="update-time">0개 종목</div>
                     </div>
                 </div>
             </div>
 
             <div class="stocks-container fade-in">
-                <!-- 제이피아이헬스케어 -->
-                <div class="stock-report">
-                    <div class="stock-header">
-                        <div class="stock-name">제이피아이헬스케어</div>
-                        <div class="stock-date">상장일: 2025년 8월</div>
-                        <div class="decision-badge">🟢 적극참여</div>
+                <!-- 빈 상태 메시지 -->
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <div class="empty-title">현재 분석 중인 종목이 없습니다</div>
+                    <div class="empty-description">
+                        새로운 IPO 수요예측이 시작되면<br>
+                        AI 분석 결과를 즉시 업데이트해드립니다.
                     </div>
-                    <div class="stock-content">
-                        <div class="info-section">
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <div class="info-label">거래소</div>
-                                    <div class="info-value">코스닥</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">업종</div>
-                                    <div class="info-value">의료정밀기기</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">공모가 밴드</div>
-                                    <div class="info-value">16,500원 ~ 20,000원</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">유통비율</div>
-                                    <div class="info-value">30.95%</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mood-grid">
-                            <div class="mood-item">
-                                <div class="mood-label">수요예측 분위기</div>
-                                <div class="mood-value">뜨거움 🔥</div>
-                                <div class="mood-detail">공모가 결정: 100.0%</div>
-                            </div>
-                            <div class="mood-item">
-                                <div class="mood-label">상장 후 분위기</div>
-                                <div class="mood-value">뜨거움 🔥</div>
-                                <div class="mood-detail">시가수익률: 75.77%</div>
-                            </div>
-                        </div>
-
-                        <div class="analysis-section">
-                            <h4>✅ 주요 판단근거</h4>
-                            <div class="reason-item">✓ 수요예측분위기: 뜨거움 (100.0%)</div>
-                            <div class="reason-item">✓ 리포트분석: 기술력 기반 성장성과 시장 확대 진출 전략이 긍정적</div>
-                            <div class="reason-item">✓ 유통비율: 30.95% (최고 등급)</div>
-                        </div>
-
-                        <div class="analysis-section">
-                            <h4>⚠️ 위험요인</h4>
-                            <div class="risk-item">⚠️ IPO 시장 과열 분위기로 인한 높은 기대치 환경에서의 변동성 위험</div>
-                            <div class="risk-item">⚠️ 의료정밀기기 업종 특성상 규제 리스크 및 수익성 감소 우려</div>
-                        </div>
+                    <div class="empty-note">
+                        💡 다음 업데이트: 2025년 8월 11일 오후 2시
                     </div>
                 </div>
             </div>
