@@ -1,1212 +1,627 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPO AI 분석 시스템</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', Arial, sans-serif;
-            line-height: 1.6;
-            color: #191f28;
-            background: linear-gradient(135deg, #f8f9fc 0%, #f1f5f9 100%);
-            font-size: 16px;
-        }
-
-        /* 네비게이션 */
-        .navbar {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 64px;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 8px;
-        }
-
-        .nav-item {
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #6b7684;
-        }
-
-        .nav-item.active {
-            background: #3182f6;
-            color: white;
-        }
-
-        .nav-item:hover:not(.active) {
-            background: #f1f5f9;
-            color: #3182f6;
-        }
-
-        .time-info {
-            font-size: 12px;
-            color: #6b7684;
-            text-align: right;
-        }
-
-        .current-time {
-            font-weight: 600;
-            color: #3182f6;
-        }
-
-        /* 모바일 메뉴 */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: #3182f6;
-            cursor: pointer;
-        }
-
-        .mobile-nav {
-            display: none;
-            background: white;
-            border-top: 1px solid #e2e8f0;
-            padding: 16px 20px;
-        }
-
-        .mobile-nav.active {
-            display: block;
-        }
-
-        .mobile-nav-item {
-            display: block;
-            padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #6b7684;
-            text-align: center;
-        }
-
-        .mobile-nav-item.active {
-            background: #3182f6;
-            color: white;
-        }
-
-        /* 컨테이너 */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px 20px;
-        }
-
-        /* 페이지 섹션 */
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        /* 설명 페이지 스타일 */
-        .header {
-            margin-bottom: 32px;
-        }
-
-        .main-title {
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            color: white;
-            padding: 28px 32px;
-            border-radius: 16px;
-            font-size: 24px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 20px rgba(49, 130, 246, 0.3);
-            transform: translateY(0);
-            transition: all 0.3s ease;
-        }
-
-        .main-title:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(49, 130, 246, 0.4);
-        }
-
-        .subtitle {
-            color: #6b7684;
-            font-size: 16px;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .overview-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-            border: 1px solid #f1f3f4;
-        }
-
-        .overview-text {
-            background: linear-gradient(135deg, #f8f9fc, #e3f2fd);
-            color: #1976d2;
-            padding: 20px 24px;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-            line-height: 1.7;
-            border: 2px solid #e3f2fd;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .overview-text::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .plus-divider {
-            margin: 16px 0;
-            text-align: center;
-        }
-
-        .plus-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            color: white;
-            border-radius: 50%;
-            font-size: 20px;
-            font-weight: bold;
-            animation: pulse 2s infinite;
-            box-shadow: 0 4px 12px rgba(49, 130, 246, 0.3);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .methodology-text {
-            background: linear-gradient(135deg, #f0f4ff, #e8f4f8);
-            color: #1976d2;
-            padding: 20px 24px;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-            line-height: 1.7;
-            border: 2px solid #e1e8ff;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin: 24px 0;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, white, #f8fafc);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #3182f6, #1d4ed8, #3182f6);
-            background-size: 200% 100%;
-            animation: gradient 3s ease infinite;
-        }
-
-        @keyframes gradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(49, 130, 246, 0.15);
-        }
-
-        .stat-number {
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            color: #6b7684;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .framework-section {
-            margin-bottom: 32px;
-        }
-
-        .section-title {
-            color: #191f28;
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 24px;
-            text-align: center;
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .categories-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-        }
-
-        .category-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-            border: 1px solid #f1f3f4;
-            transition: all 0.2s ease;
-        }
-
-        .category-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
-        }
-
-        .category-header {
-            padding: 20px 24px;
-            font-weight: 700;
-            font-size: 16px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -50px;
-            width: 50px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
-            transform: skewX(-20deg);
-            animation: slide 4s infinite;
-        }
-
-        @keyframes slide {
-            0%, 90%, 100% { right: -50px; }
-            10%, 80% { right: 100%; }
-        }
-
-        .category-공모정보 .category-header {
-            background: linear-gradient(135deg, #f44336, #d32f2f);
-        }
-
-        .category-기업정보 .category-header {
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-        }
-
-        .category-시장분위기 .category-header {
-            background: linear-gradient(135deg, #ff9800, #f57c00);
-        }
-
-        .category-정성분석 .category-header {
-            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
-        }
-
-        .category-월별요인 .category-header {
-            background: linear-gradient(135deg, #00c853, #00a152);
-        }
-
-        .category-icon {
-            width: 24px;
-            height: 24px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: bold;
-            backdrop-filter: blur(10px);
-        }
-
-        .indicators-list {
-            padding: 24px;
-        }
-
-        .indicator-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-            color: #4e5968;
-            font-size: 15px;
-            font-weight: 500;
-            border-bottom: 1px solid #f8f9fc;
-            gap: 16px;
-            transition: all 0.2s ease;
-        }
-
-        .indicator-item:hover {
-            color: #3182f6;
-            transform: translateX(4px);
-        }
-
-        .indicator-item:last-child {
-            border-bottom: none;
-        }
-
-        .indicator-dot {
-            width: 8px;
-            height: 8px;
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            border-radius: 50%;
-            flex-shrink: 0;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px rgba(49, 130, 246, 0.3); }
-            100% { box-shadow: 0 0 10px rgba(49, 130, 246, 0.6); }
-        }
-
-        .summary-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-            border: 1px solid #f1f3f4;
-            margin-bottom: 24px;
-        }
-
-        .summary-title {
-            color: #191f28;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .summary-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-        }
-
-        .summary-text {
-            color: #4e5968;
-            font-size: 16px;
-            line-height: 1.7;
-            font-weight: 500;
-        }
-
-        .highlight {
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        .disclaimer {
-            background: #fef7e0;
-            border: 1px solid #fed7aa;
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-top: 24px;
-        }
-
-        .disclaimer-title {
-            color: #ea580c;
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .disclaimer-text {
-            color: #9a3412;
-            font-size: 14px;
-            line-height: 1.6;
-            font-weight: 500;
-        }
-
-        /* 분석 결과 페이지 스타일 */
-        .analysis-header {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            text-align: center;
-        }
-
-        .analysis-main-title {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-        }
-
-        .analysis-subtitle {
-            color: #6b7684;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .update-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .update-card {
-            background: linear-gradient(135deg, #f8fafc, #e3f2fd);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            border: 1px solid #e3f2fd;
-        }
-
-        .update-label {
-            font-size: 12px;
-            color: #6b7684;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .update-time {
-            font-size: 14px;
-            font-weight: 700;
-            color: #3182f6;
-        }
-
-        /* 빈 상태 스타일 */
-        .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 80px 40px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid #f1f3f4;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            opacity: 0.6;
-        }
-
-        .empty-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #191f28;
-            margin-bottom: 16px;
-        }
-
-        .empty-description {
-            font-size: 16px;
-            color: #6b7684;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .empty-note {
-            background: linear-gradient(135deg, #f8fafc, #e3f2fd);
-            color: #1976d2;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            border: 1px solid #e3f2fd;
-        }
-
-        .stocks-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .stock-report {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid #f1f3f4;
-            transition: all 0.3s ease;
-        }
-
-        .stock-report:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        }
-
-        .stock-header {
-            background: linear-gradient(135deg, #3182f6, #1d4ed8);
-            color: white;
-            padding: 20px 24px;
-            text-align: center;
-        }
-
-        .stock-name {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .stock-date {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .decision-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 700;
-            margin: 16px 0;
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-        }
-
-        .decision-badge-제한적참여 {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-        }
-
-        .stock-content {
-            padding: 24px;
-        }
-
-        .info-section {
-            margin-bottom: 20px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .info-item {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .info-label {
-            font-size: 12px;
-            color: #6b7684;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .info-value {
-            font-size: 14px;
-            font-weight: 700;
-            color: #191f28;
-        }
-
-        .mood-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .mood-item {
-            background: linear-gradient(135deg, #f44336, #d32f2f);
-            color: white;
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .mood-label {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-bottom: 4px;
-        }
-
-        .mood-value {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .mood-detail {
-            font-size: 11px;
-            opacity: 0.8;
-        }
-
-        .analysis-section {
-            background: #f8fafc;
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 16px;
-        }
-
-        .analysis-section h4 {
-            font-size: 14px;
-            font-weight: 700;
-            color: #191f28;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .reason-item, .risk-item {
-            background: #e8f5e8;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-
-        .risk-item {
-            background: #ffe6e6;
-            border-left: 3px solid #f44336;
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .nav-menu, .time-info {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .container {
-                padding: 20px 16px;
-            }
-
-            .main-title {
-                font-size: 20px;
-                padding: 24px;
-            }
-
-            .section-title {
-                font-size: 24px;
-            }
-
-            .categories-container, .stocks-container {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .overview-text, .methodology-text {
-                font-size: 15px;
-            }
-
-            .summary-text {
-                font-size: 15px;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .mood-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .update-info {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 애니메이션 */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPO AI 분석 시스템</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo','Malgun Gothic',Arial,sans-serif;background:#f4f6fb;color:#191f28;font-size:15px;line-height:1.6}
+
+/* ── 네비게이션 ── */
+.navbar{background:#fff;border-bottom:1px solid #e8ecf0;position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav-inner{max-width:960px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{font-size:17px;font-weight:800;color:#3182f6;letter-spacing:-.3px}
+.nav-tabs{display:flex;gap:4px}
+.tab{padding:7px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;color:#6b7684;transition:.2s}
+.tab.on{background:#3182f6;color:#fff}
+.tab:hover:not(.on){background:#f1f5f9;color:#3182f6}
+.nav-time{font-size:11px;color:#6b7684;text-align:right;line-height:1.4}
+.nav-time b{color:#3182f6;font-size:12px}
+.mob-btn{display:none;background:none;border:none;font-size:22px;color:#3182f6;cursor:pointer;line-height:1}
+.mob-nav{display:none;background:#fff;border-top:1px solid #e8ecf0;padding:12px 16px}
+.mob-nav.open{display:block}
+.mob-tab{display:block;padding:11px 16px;margin-bottom:6px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#6b7684;text-align:center}
+.mob-tab.on{background:#3182f6;color:#fff}
+
+/* ── 레이아웃 ── */
+.page{display:none}.page.on{display:block}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px}
+
+/* ── 프레임워크 페이지 ── */
+.hero{background:linear-gradient(135deg,#3182f6,#1d4ed8);color:#fff;border-radius:18px;padding:28px 24px;text-align:center;margin-bottom:20px}
+.hero h1{font-size:22px;font-weight:800;margin-bottom:6px}
+.hero p{font-size:14px;opacity:.9}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:#fff;border-radius:14px;padding:18px 12px;text-align:center;border:1px solid #e8ecf0}
+.stat-n{font-size:26px;font-weight:800;color:#3182f6}
+.stat-l{font-size:12px;color:#6b7684;font-weight:600;margin-top:2px}
+.fw-title{font-size:18px;font-weight:800;color:#191f28;margin:24px 0 14px;text-align:center}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:20px}
+.cat{background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e8ecf0}
+.cat-head{padding:14px 18px;font-weight:700;font-size:14px;color:#fff;display:flex;align-items:center;gap:10px}
+.cat-head span{width:22px;height:22px;background:rgba(255,255,255,.25);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.c1 .cat-head{background:linear-gradient(135deg,#f44336,#d32f2f)}
+.c2 .cat-head{background:linear-gradient(135deg,#3182f6,#1d4ed8)}
+.c3 .cat-head{background:linear-gradient(135deg,#ff9800,#f57c00)}
+.c4 .cat-head{background:linear-gradient(135deg,#9c27b0,#7b1fa2)}
+.c5 .cat-head{background:linear-gradient(135deg,#00c853,#00a152)}
+.cat-body{padding:16px 18px}
+.ind{display:flex;align-items:center;gap:10px;padding:9px 0;color:#4e5968;font-size:14px;font-weight:500;border-bottom:1px solid #f5f6f8}
+.ind:last-child{border-bottom:none}
+.dot-ind{width:7px;height:7px;background:#3182f6;border-radius:50%;flex-shrink:0}
+.summary-box{background:#fff;border-radius:14px;padding:20px;border:1px solid #e8ecf0;margin-bottom:16px}
+.summary-box p{color:#4e5968;font-size:14px;line-height:1.75}
+.summary-box p b{color:#3182f6}
+.disclaimer{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px 18px}
+.disclaimer p{font-size:13px;color:#92400e;line-height:1.6}
+.disclaimer b{color:#d97706}
+
+/* ── 분석 결과 헤더 ── */
+.analysis-hero{background:#fff;border-radius:18px;padding:22px 20px;margin-bottom:20px;text-align:center;border:1px solid #e8ecf0}
+.analysis-hero h2{font-size:22px;font-weight:800;color:#3182f6;margin-bottom:4px}
+.analysis-hero p{font-size:14px;color:#6b7684;margin-bottom:16px}
+.meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.meta-item{background:#f4f6fb;border-radius:10px;padding:12px;text-align:center}
+.meta-l{font-size:11px;color:#6b7684;font-weight:600;margin-bottom:3px}
+.meta-v{font-size:13px;font-weight:700;color:#3182f6}
+
+/* ── 종목 카드 ── */
+.stocks{display:flex;flex-direction:column;gap:20px}
+
+.stock-card{background:#fff;border-radius:18px;overflow:hidden;border:1px solid #e8ecf0;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+
+.sc-header{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;user-select:none}
+.sc-header-left{display:flex;align-items:center;gap:14px}
+.sc-name{font-size:20px;font-weight:800;color:#191f28}
+.sc-meta{font-size:12px;color:#6b7684;margin-top:2px}
+
+.dec-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:30px;font-size:13px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.dec-pill .sub{font-size:11px;font-weight:600;opacity:.85}
+.pill-green{background:#e8f5e8;color:#1b5e20}
+.pill-orange{background:#fff3e0;color:#bf360c}
+.pill-red{background:#fde8e8;color:#7f1d1d}
+
+.expand-btn{width:28px;height:28px;border-radius:50%;background:#f4f6fb;border:1px solid #e8ecf0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7684;flex-shrink:0;transition:.2s}
+.stock-card.open .expand-btn{transform:rotate(180deg)}
+
+/* 요약 줄 — 항상 보임 */
+.sc-summary{padding:0 20px 16px;display:flex;flex-wrap:wrap;gap:8px}
+.s-chip{background:#f4f6fb;border-radius:8px;padding:6px 12px;font-size:12px;color:#4e5968;font-weight:500;border:1px solid #e8ecf0}
+.s-chip b{color:#3182f6}
+
+/* 상세 내용 — 접힘/펼침 */
+.sc-detail{display:none;padding:0 20px 20px;border-top:1px solid #f1f3f5}
+.stock-card.open .sc-detail{display:block}
+
+.detail-section{margin-top:18px}
+.detail-title{font-size:13px;font-weight:700;color:#6b7684;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+
+/* EV 도트 */
+.ev-rows{display:flex;flex-direction:column;gap:8px}
+.ev-row{display:flex;align-items:center;gap:10px}
+.ev-lbl{width:52px;font-size:13px;font-weight:500;color:#6b7684;text-align:right;flex-shrink:0}
+.ev-lbl.best{color:#191f28;font-weight:700}
+.ev-dots{display:flex;gap:4px}
+.d{width:19px;height:19px;border-radius:4px}
+.d-5{background:#27500A}.d-4{background:#639922}.d-3{background:#EF9F27}.d-2{background:#E24B4A}.d-1{background:#A32D2D}
+.d-e{background:#f0f2f5;border:1px solid #e0e4e8}
+.ev-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:12px;margin-left:4px;white-space:nowrap}
+.eb-5{background:#EAF3DE;color:#27500A}.eb-4{background:#EAF3DE;color:#3B6D11}
+.eb-3{background:#FAEEDA;color:#633806}.eb-2{background:#FCEBEB;color:#791F1F}.eb-1{background:#FCEBEB;color:#501313}
+.alloc-hint{font-size:11px;color:#aaa;margin-left:4px}
+.ev-legend{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+.ev-leg{display:flex;align-items:center;gap:4px;font-size:11px;color:#6b7684}
+.ev-leg-dot{width:10px;height:10px;border-radius:2px}
+
+/* 시장분위기 */
+.mood-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mood-chip{background:#f4f6fb;border-radius:10px;padding:12px 14px;border:1px solid #e8ecf0}
+.mood-chip .ml{font-size:11px;color:#6b7684;margin-bottom:4px;font-weight:600}
+.mood-chip .mv{font-size:14px;font-weight:700;color:#191f28}
+.mood-chip.hot{background:#fff5f5;border-color:#fca5a5}.mood-chip.hot .mv{color:#dc2626}
+.mood-chip.warm{background:#fffbeb;border-color:#fde68a}.mood-chip.warm .mv{color:#d97706}
+.mood-chip.bull{background:#f0fdf4;border-color:#86efac}.mood-chip.bull .mv{color:#15803d}
+.mood-chip.neutral{background:#f8fafc;border-color:#e2e8f0}
+.mood-chip.bear{background:#fef2f2;border-color:#fca5a5}.mood-chip.bear .mv{color:#dc2626}
+
+/* 기본정보 */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info-chip{background:#f8fafc;border-radius:8px;padding:10px 12px;border:1px solid #e8ecf0}
+.info-chip .il{font-size:11px;color:#6b7684;margin-bottom:2px;font-weight:600}
+.info-chip .iv{font-size:13px;font-weight:700;color:#191f28}
+
+/* 판단근거/위험 */
+.reasons,.risks{display:flex;flex-direction:column;gap:6px}
+.r-item{border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.55}
+.r-item.pos{background:#f0fdf4;border-left:3px solid #22c55e;color:#166534}
+.r-item.neg{background:#fef2f2;border-left:3px solid #ef4444;color:#7f1d1d}
+
+/* 특별주의 */
+.caution-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;font-size:13px;color:#92400e;line-height:1.6;margin-top:8px}
+.caution-box b{color:#d97706}
+
+/* 확약 추천 배너 */
+.lockup-banner{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-radius:12px;padding:14px 18px;margin-bottom:10px}
+.lb-top{font-size:12px;opacity:.85;margin-bottom:4px}
+.lb-main{font-size:16px;font-weight:800;margin-bottom:4px}
+.lb-sub{font-size:12px;opacity:.8;line-height:1.5}
+
+/* 리포트 */
+.report-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rep-chip{background:#f8fafc;border-radius:8px;padding:10px 12px;border:1px solid #e8ecf0;text-align:center}
+.rep-chip .rl{font-size:11px;color:#6b7684;margin-bottom:3px}
+.rep-chip .rv{font-size:13px;font-weight:700;color:#191f28}
+
+/* 모바일 */
+@media(max-width:640px){
+  .nav-tabs,.nav-time{display:none}
+  .mob-btn{display:block}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .meta-row{grid-template-columns:1fr}
+  .mood-row,.info-grid,.report-row{grid-template-columns:1fr}
+  .sc-header{padding:14px 16px}
+  .sc-summary{padding:0 16px 14px}
+  .sc-detail{padding:0 16px 16px}
+  .ev-lbl{width:44px;font-size:12px}
+  .d{width:16px;height:16px}
+}
+
+/* 애니메이션 */
+.fade{opacity:0;transform:translateY(16px);transition:.5s ease}
+.fade.show{opacity:1;transform:none}
+</style>
 </head>
 <body>
-    <!-- 네비게이션 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">📊 IPO AI 분석 시스템</div>
-            
-            <div class="nav-menu">
-                <div class="nav-item active" onclick="showPage('framework')">분석 프레임워크</div>
-                <div class="nav-item" onclick="showPage('analysis')">실시간 분석 결과</div>
-            </div>
 
-            <div class="time-info">
-                <div class="current-time" id="currentTime"></div>
-                <div style="font-size: 11px;">실시간 업데이트</div>
-            </div>
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="logo">📊 IPO AI</div>
+    <div class="nav-tabs">
+      <div class="tab on" onclick="goPage('framework',this)">분석 프레임워크</div>
+      <div class="tab" onclick="goPage('analysis',this)">실시간 분석</div>
+    </div>
+    <div class="nav-time">
+      <b id="clock">--:--:--</b><br>실시간
+    </div>
+    <button class="mob-btn" onclick="toggleMob()">☰</button>
+  </div>
+  <div class="mob-nav" id="mobNav">
+    <div class="mob-tab on" onclick="goPage('framework',this)">분석 프레임워크</div>
+    <div class="mob-tab" onclick="goPage('analysis',this)">실시간 분석</div>
+  </div>
+</nav>
 
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-        </div>
+<!-- ════════════════ 프레임워크 ════════════════ -->
+<div id="framework" class="page on">
+<div class="wrap">
 
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-item active" onclick="showPage('framework')">분석 프레임워크</div>
-            <div class="mobile-nav-item" onclick="showPage('analysis')">실시간 분석 결과</div>
-        </div>
-    </nav>
+  <div class="hero fade">
+    <h1>엑스포넨셜 IPO 종목 선별 AI 모델</h1>
+    <p>AI 데이터 검증 + 전문가 경험의 융합 · 확약 EV 기반 최적 전략 자동 산출</p>
+  </div>
 
-    <div class="container">
-        <!-- 분석 프레임워크 페이지 -->
-        <section id="framework" class="page-section active">
-            <div class="header">
-                <div class="main-title">
-                    엑스포넨셜 IPO 종목 선별 AI 모델
-                </div>
-                <div class="subtitle">
-                    AI 모델 데이터 검증 + 전문가 경험의 융합
-                </div>
-            </div>
+  <div class="stats-row fade">
+    <div class="stat"><div class="stat-n">15개</div><div class="stat-l">핵심 지표</div></div>
+    <div class="stat"><div class="stat-n">5개</div><div class="stat-l">분석 영역</div></div>
+    <div class="stat"><div class="stat-n">4년+</div><div class="stat-l">학습 데이터</div></div>
+    <div class="stat"><div class="stat-n">AI</div><div class="stat-l">자동 분석</div></div>
+  </div>
 
-            <div class="overview-card fade-in">
-                <div class="overview-text">
-                    공모주 수요예측 투자 전문가의 투자판단 프로세스 패턴 학습 AI<br>
-                    <span class="accent-blue">(시장분위기 판단)</span>
-                </div>
-                
-                <div class="plus-divider">
-                    <div class="plus-icon">+</div>
-                </div>
-                
-                <div class="methodology-text">
-                    15개 핵심지표 종합분석 - 공모정보, 기업정보, 시장분위기, 월별요인 등<br>
-                    <span class="accent-blue">(2020년 이후 과거 IPO 성과 패턴 학습)</span>
-                </div>
-            </div>
+  <div class="fw-title">핵심 분석 프레임워크</div>
+  <div class="cats fade">
+    <div class="cat c1">
+      <div class="cat-head"><span>1</span>공모정보 (5개 지표)</div>
+      <div class="cat-body">
+        <div class="ind"><div class="dot-ind"></div>공모가밴드</div>
+        <div class="ind"><div class="dot-ind"></div>장외거래가</div>
+        <div class="ind"><div class="dot-ind"></div>유통주식수비율</div>
+        <div class="ind"><div class="dot-ind"></div>주관사</div>
+        <div class="ind"><div class="dot-ind"></div>코넥스이전상장</div>
+      </div>
+    </div>
+    <div class="cat c2">
+      <div class="cat-head"><span>2</span>기업정보 (5개 지표)</div>
+      <div class="cat-body">
+        <div class="ind"><div class="dot-ind"></div>업종분류</div>
+        <div class="ind"><div class="dot-ind"></div>최대주주지분율</div>
+        <div class="ind"><div class="dot-ind"></div>거래소</div>
+        <div class="ind"><div class="dot-ind"></div>기술평가등급</div>
+        <div class="ind"><div class="dot-ind"></div>기술특례상장</div>
+      </div>
+    </div>
+    <div class="cat c3">
+      <div class="cat-head"><span>3</span>시장분위기 (3개 지표)</div>
+      <div class="cat-body">
+        <div class="ind"><div class="dot-ind"></div>직전 공모가 결정률</div>
+        <div class="ind"><div class="dot-ind"></div>직전 시가수익률</div>
+        <div class="ind"><div class="dot-ind"></div>직전 종가수익률</div>
+      </div>
+    </div>
+    <div class="cat c4">
+      <div class="cat-head"><span>4</span>정성분석 (1개 지표)</div>
+      <div class="cat-body">
+        <div class="ind"><div class="dot-ind"></div>리포트 및 운용역 코멘트</div>
+      </div>
+    </div>
+    <div class="cat c5">
+      <div class="cat-head"><span>5</span>월별요인 (1개 지표)</div>
+      <div class="cat-body">
+        <div class="ind"><div class="dot-ind"></div>월별그룹</div>
+      </div>
+    </div>
+  </div>
 
-            <div class="stats-grid fade-in">
-                <div class="stat-card">
-                    <div class="stat-number">15개</div>
-                    <div class="stat-label">핵심 지표</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">5개</div>
-                    <div class="stat-label">분석 영역</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4년+</div>
-                    <div class="stat-label">학습 데이터</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">AI</div>
-                    <div class="stat-label">자동 분석</div>
-                </div>
-            </div>
+  <div class="summary-box fade">
+    <p>본 AI 모델은 <b>15개 핵심지표를 5개 영역으로 체계화</b>하여 IPO 투자 의사결정을 지원합니다.
+    과거 IPO 성과 패턴과 전문가 정성 판단을 결합해 <b>확약 기간별 기대수익(EV)</b>을 자동 산출하며,
+    <b>분위기 추종 + 15일 확약 표준</b> 전략을 기반으로 최적 참여 전략을 제시합니다.</p>
+  </div>
 
-            <div class="framework-section fade-in">
-                <div class="section-title">핵심 분석 프레임워크</div>
-                
-                <div class="categories-container">
-                    <div class="category-card category-공모정보">
-                        <div class="category-header">
-                            <div class="category-icon">1</div>
-                            공모정보 (5개 지표)
-                        </div>
-                        <div class="indicators-list">
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                공모가밴드
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                장외거래가
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                유통주식수비율
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                주관사
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                코넥스이전상장
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="category-card category-기업정보">
-                        <div class="category-header">
-                            <div class="category-icon">2</div>
-                            기업정보 (5개 지표)
-                        </div>
-                        <div class="indicators-list">
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                업종분류
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                최대주주지분율
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                거래소
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                기술평가등급
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                기술특례상장
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="category-card category-시장분위기">
-                        <div class="category-header">
-                            <div class="category-icon">3</div>
-                            시장분위기 (3개 지표)
-                        </div>
-                        <div class="indicators-list">
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                직전 공모가 결정률
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                직전 시가수익률
-                            </div>
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                직전 종가수익률
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="category-card category-정성분석">
-                        <div class="category-header">
-                            <div class="category-icon">4</div>
-                            정성분석 (1개 지표)
-                        </div>
-                        <div class="indicators-list">
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                리포트 및 운용역 코멘트
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="category-card category-월별요인">
-                        <div class="category-header">
-                            <div class="category-icon">5</div>
-                            월별요인 (1개 지표)
-                        </div>
-                        <div class="indicators-list">
-                            <div class="indicator-item">
-                                <div class="indicator-dot"></div>
-                                월별그룹
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="summary-card fade-in">
-                <div class="summary-title">
-                    <div class="summary-icon">💡</div>
-                    통합 분석 방법론
-                </div>
-                <div class="summary-text">
-                    본 AI 모델은 <span class="highlight">15개 핵심지표를 5개 영역으로 체계화</span>하여 IPO 투자 의사결정을 지원합니다. 
-                    2020년 이후 IPO 성과 패턴을 학습한 데이터 기반 분석과 전문가의 정성적 판단을 결합하여, 
-                    <span class="highlight">객관적이고 일관성 있는 투자 프레임워크</span>를 제공합니다. 
-                    특히 시장분위기 지표를 통해 공모주 시장의 전반적인 투자심리를 반영하여 
-                    보다 정교한 리스크 관리가 가능합니다.
-                </div>
-            </div>
-
-            <div class="disclaimer">
-                <div class="disclaimer-title">
-                    ⚠️ 투자 위험 고지
-                </div>
-                <div class="disclaimer-text">
-                    본 분석 모델은 과거 데이터를 기반으로 한 참고자료이며, 미래 수익을 보장하지 않습니다. 
-                    모든 투자 결정은 투자자 본인의 판단과 책임하에 이루어져야 하며, 투자에 따른 손실 위험을 충분히 고려하시기 바랍니다.
-                </div>
-            </div>
-        </section>
-
-        <!-- 실시간 분석 결과 페이지 -->
-        <section id="analysis" class="page-section">
-            <div class="analysis-header fade-in">
-                <div class="analysis-main-title">🎯 실시간 IPO 분석 결과</div>
-                <div class="analysis-subtitle">현재 수요예측 진행 중인 종목 AI 분석</div>
-                
-                <div class="update-info">
-                    <div class="update-card">
-                        <div class="update-label">분석 기준일</div>
-                        <div class="update-time">2026년 4월 15일 오전 9시</div>
-                    </div>
-                    <div class="update-card">
-                        <div class="update-label">다음 업데이트</div>
-                        <div class="update-time">2026년 4월 16일 오전 9시</div>
-                    </div>
-                    <div class="update-card">
-                        <div class="update-label">✨ 분석 완료</div>
-                        <div class="update-time">1개 종목</div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-             <div class="stocks-container fade-in">
-                <!-- 채비 -->
-                <div class="stock-report" data-decision="positive">
-                    <div class="stock-header">
-                        <div class="stock-name">채비</div>
-                        <div class="stock-date">상장일: 2026년 4월</div>
-                        <div class="decision-badge">🟢 적극참여</div>
-                    </div>
-                    <div class="stock-content">
-                        <div class="info-section">
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <div class="info-label">거래소</div>
-                                    <div class="info-value">코스닥</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">업종</div>
-                                    <div class="info-value">전기변환장치 제조업</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">공모가 밴드</div>
-                                    <div class="info-value">12,300원 ~ 15,300원</div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">유통비율</div>
-                                    <div class="info-value">24.84%</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mood-grid">
-                            <div class="mood-item">
-                                <div class="mood-label">수요예측 분위기</div>
-                                <div class="mood-value">뜨거움 🔥</div>
-                                <div class="mood-detail">공모가 결정: 98.74%</div>
-                            </div>
-                            <div class="mood-item">
-                                <div class="mood-label">상장 후 분위기</div>
-                                <div class="mood-value">매우뜨거움 🔥</div>
-                                <div class="mood-detail">시가수익률: 189.85%</div>
-                            </div>
-                        </div>
-
-                        <div class="analysis-section">
-                            <h4>✅ 주요 판단근거</h4>
-                            <div class="reason-item">✓ 수요예측분위기: 뜨거움 (98.74%)</div>
-                            <div class="reason-item">✓ 리포트분석: 전기변환장치 제조업 성장성과 경쟁우위 확보로 긍정적 전망</div>
-                            <div class="reason-item">✓ 장외거래가: 없음</div>
-                            <div class="reason-item">✓ 유통비율: 24.84% (최고등급)</div>
-                        </div>
-
-                        <div class="analysis-section">
-                            <h4>⚠️ 위험요인</h4>
-                            <div class="risk-item">⚠️ IPO 시장 과열 분위기로 인한 높은 기대치 환경과 변동성 확대 가능성</div>
-                            <div class="risk-item">⚠️ 리포트에서 언급된 사업 리스크 요인 존재</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="disclaimer">
+    <p><b>⚠️ 투자 위험 고지</b><br>
+    본 분석은 과거 데이터 기반 참고자료이며 미래 수익을 보장하지 않습니다.
+    모든 투자 결정은 투자자 본인의 판단과 책임하에 이루어져야 합니다.</p>
+  </div>
 
 </div>
+</div>
 
-        </section>
+<!-- ════════════════ 실시간 분석 ════════════════ -->
+<div id="analysis" class="page">
+<div class="wrap">
+
+  <div class="analysis-hero fade">
+    <h2>🎯 실시간 IPO 분석</h2>
+    <p>현재 수요예측 진행 중인 종목 AI 분석</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-l">분석 기준일</div><div class="meta-v">2026년 4월 16일</div></div>
+      <div class="meta-item"><div class="meta-l">다음 업데이트</div><div class="meta-v">2026년 4월 17일 오전 9시</div></div>
+      <div class="meta-item"><div class="meta-l">✨ 분석 완료</div><div class="meta-v">2개 종목</div></div>
+    </div>
+  </div>
+
+  <div class="stocks fade">
+
+    <!-- ── 채비 ── -->
+    <div class="stock-card" id="card-chaevi">
+      <div class="sc-header" onclick="toggleCard('card-chaevi')">
+        <div class="sc-header-left">
+          <div>
+            <div class="sc-name">채비</div>
+            <div class="sc-meta">코스닥 · 전기변환장치 · 상장예정: 2026년 4월</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="dec-pill pill-green">
+            확약참여 <span class="sub">| 15일</span>
+          </div>
+          <div class="expand-btn">▼</div>
+        </div>
+      </div>
+
+      <div class="sc-summary">
+        <div class="s-chip">수요예측 <b>뜨거움</b></div>
+        <div class="s-chip">유통비율 <b>24.84%</b></div>
+        <div class="s-chip">장외가 <b>없음</b></div>
+        <div class="s-chip">증시 <b>neutral</b></div>
+        <div class="s-chip">업종 <b>긍정</b></div>
+      </div>
+
+      <div class="sc-detail">
+
+        <div class="detail-section">
+          <div class="detail-title">AI 매니저 판단</div>
+          <div style="background:#f0fdf4;border-radius:10px;padding:12px 16px;font-size:14px;color:#166534;line-height:1.65;border:1px solid #86efac">
+            수요예측 분위기 뜨거움 + 상장 분위기 매우뜨거움 조건 충족. 15일 확약으로 배정 배율(×1.5) 확보하며 적극 참여 후, 전기차 캐즘·고평가 논란 감안해 15일 내 익절 원칙 준수.
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-title">기대수익 등급 (배정배율 × 예상수익률)</div>
+          <div class="lockup-banner">
+            <div class="lb-top">추천 확약 기간</div>
+            <div class="lb-main">15일 확약</div>
+            <div class="lb-sub">직전 IPO 시가수익률 +189.85%의 매우뜨거운 분위기 → 15일 EV 최적, 1개월 이후 전기차 캐즘·고평가 리스크로 EV 급락</div>
+          </div>
+          <div class="ev-rows">
+            <div class="ev-row">
+              <div class="ev-lbl">미확약</div>
+              <div class="ev-dots">
+                <div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div>
+              </div>
+              <span class="ev-badge eb-5">최적</span>
+              <span class="alloc-hint">×1.0</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl best">★ 15일</div>
+              <div class="ev-dots">
+                <div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div><div class="d d-4"></div>
+              </div>
+              <span class="ev-badge eb-5">최적</span>
+              <span class="alloc-hint">×1.5</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl">1개월</div>
+              <div class="ev-dots">
+                <div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div>
+              </div>
+              <span class="ev-badge eb-4">양호</span>
+              <span class="alloc-hint">×2.0</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl">3개월</div>
+              <div class="ev-dots">
+                <div class="d d-3"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div>
+              </div>
+              <span class="ev-badge eb-3">보통</span>
+              <span class="alloc-hint">×3.0</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl">6개월</div>
+              <div class="ev-dots">
+                <div class="d d-2"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div>
+              </div>
+              <span class="ev-badge eb-2">주의</span>
+              <span class="alloc-hint">×4.0</span>
+            </div>
+          </div>
+          <div class="ev-legend">
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#27500A"></div>최적</div>
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#639922"></div>양호</div>
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#EF9F27"></div>보통</div>
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#A32D2D"></div>위험</div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-title">시장 분위기</div>
+          <div class="mood-row">
+            <div class="mood-chip warm"><div class="ml">수요예측 분위기</div><div class="mv">뜨거움 🔥</div></div>
+            <div class="mood-chip hot"><div class="ml">직전 IPO 시가수익률</div><div class="mv">+189.85%</div></div>
+            <div class="mood-chip neutral"><div class="ml">증시 분위기</div><div class="mv">neutral</div></div>
+            <div class="mood-chip bull"><div class="ml">업종 동향</div><div class="mv">긍정 ↑</div></div>
+          </div>
+          <div style="margin-top:8px;background:#f8fafc;border-radius:8px;padding:10px 14px;font-size:13px;color:#4e5968;border:1px solid #e8ecf0">
+            📰 CPO 1위 채비, 전기차 캐즘 우려·공모가 고평가 논란 속에서도 정부 정책·로보택시 수혜 기대감으로 증권가 긍정 전망 우세
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-title">종목 기본 정보</div>
+          <div class="info-grid">
+            <div class="info-chip"><div class="il">거래소</div><div class="iv">코스닥</div></div>
+            <div class="info-chip"><div class="il">업종</div><div class="iv">전기변환장치 제조업</div></div>
+            <div class="info-chip"><div class="il">공모가 밴드</div><div class="iv">12,300 ~ 15,300원</div></div>
+            <div class="info-chip"><div class="il">유통주식수 비율</div><div class="iv">24.84%</div></div>
+            <div class="info-chip"><div class="il">장외거래가</div><div class="iv">없음</div></div>
+            <div class="info-chip"><div class="il">최대주주 지분율</div><div class="iv">38.45%</div></div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-title">✅ 투자 판단근거</div>
+          <div class="reasons">
+            <div class="r-item pos">직전 IPO 공모가 결정 98.74%(상단 근접) + 시가수익률 189.85% → 시장 온도 최상위, 참여 근거 강력</div>
+            <div class="r-item pos">리포트 품질 high·톤 positive — CPO 1위 포지션·정부 전기차 확대 정책 수혜 스토리 유효, 성장·진출·경쟁우위 키워드 확인</div>
+            <div class="r-item pos">유통비율 24.84% 낮은 수준 — 상장 초기 수급 부담 제한적, EV 비교 시 15일(52.5) ≈ 미확약(55.0)으로 차이 미미하나 배정 배율 ×1.5 확보로 15일 확약 최적</div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-title">⚠️ 위험요인</div>
+          <div class="risks">
+            <div class="r-item neg">전기차 캐즘 지속 시 충전 인프라 수요 성장 둔화 → 상장 후 중장기 주가 하락 압력 현실화 가능</div>
+            <div class="r-item neg">증권신고서 두 차례 정정으로 3주 일정 지연 + 공모가 고평가 평가 → 수요예측 흥행 불확실성 및 상장 초기 차익실현 매물 집중 리스크</div>
+            <div class="r-item neg">코스닥 횡보세 + 중동발 지정학 리스크 → 상장 당일 이후 시장 전반 조정 시 동반 하락 가능성</div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-title">📄 리포트 분석</div>
+          <div class="report-row">
+            <div class="rep-chip"><div class="rl">리포트 품질</div><div class="rv">high</div></div>
+            <div class="rep-chip"><div class="rl">리포트 톤</div><div class="rv">positive</div></div>
+            <div class="rep-chip"><div class="rl">정량정성 일치도</div><div class="rv">보통</div></div>
+          </div>
+          <div class="caution-box" style="margin-top:10px">
+            <b>특별 주의사항:</b> 수요예측 분위기 매우뜨겁지만 전기차 캐즘·공모가 고평가 논란·신고서 정정 이력이 복합 리스크. 15일 확약으로 상장 초기 강세 구간만 포착하고 반드시 15일 내 익절 원칙 준수. 1개월 이상 보유 연장 지양.
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <script>
-        // 현재 시간 업데이트
-        function updateCurrentTime() {
-            const now = new Date();
-            const timeString = now.toLocaleString('ko-KR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            const currentTimeElement = document.getElementById('currentTime');
-            if (currentTimeElement) {
-                currentTimeElement.textContent = timeString;
-            }
-        }
+    <!-- ── 코스모로보틱스 ── -->
+    <div class="stock-card" id="card-cosmo">
+      <div class="sc-header" onclick="toggleCard('card-cosmo')">
+        <div class="sc-header-left">
+          <div>
+            <div class="sc-name">코스모로보틱스</div>
+            <div class="sc-meta">코스닥 · 의료용 기기 · 상장예정: 2026년 5월</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="dec-pill pill-green">
+            확약참여 <span class="sub">| 15일</span>
+          </div>
+          <div class="expand-btn">▼</div>
+        </div>
+      </div>
 
-        // 페이지 전환
-        function showPage(pageId) {
-            // 모든 페이지 숨기기
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(page => page.classList.remove('active'));
+      <div class="sc-summary">
+        <div class="s-chip">수요예측 <b>뜨거움</b></div>
+        <div class="s-chip">유통비율 <b>32.43%</b></div>
+        <div class="s-chip">장외가 <b>15,500원 (61% 할인)</b></div>
+        <div class="s-chip">증시 <b>neutral</b></div>
+        <div class="s-chip">업종 <b>긍정</b></div>
+      </div>
 
-            // 선택된 페이지 보이기
-            document.getElementById(pageId).classList.add('active');
+      <div class="sc-detail">
 
-            // 네비게이션 활성화 상태 변경
-            const navItems = document.querySelectorAll('.nav-item, .mobile-nav-item');
-            navItems.forEach(item => item.classList.remove('active'));
+        <div class="detail-section">
+          <div class="detail-title">AI 매니저 판단</div>
+          <div style="background:#f0fdf4;border-radius:10px;padding:12px 16px;font-size:14px;color:#166534;line-height:1.65;border:1px solid #86efac">
+            장외가 61% 할인·시장 분위기 최상급 조합으로 단기 수익 확률 높음. 15일 확약으로 배정 배율(×1.5) 챙기고 조기 회수 권장. 러시아 의존 리스크 고려해 1개월 이상 보유 지양.
+          </div>
+        </div>
 
-            // 클릭된 메뉴 활성화
-            event.target.classList.add('active');
+        <div class="detail-section">
+          <div class="detail-title">기대수익 등급 (배정배율 × 예상수익률)</div>
+          <div class="lockup-banner">
+            <div class="lb-top">추천 확약 기간</div>
+            <div class="lb-main">15일 확약</div>
+            <div class="lb-sub">EV 기준 15일(52.5) > 1개월(40.0) > 미확약(35.0) — 리포트 부정 톤·러시아 의존으로 1개월 이후 EV 급락, 시장 표준 15일 최적</div>
+          </div>
+          <div class="ev-rows">
+            <div class="ev-row">
+              <div class="ev-lbl">미확약</div>
+              <div class="ev-dots">
+                <div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div>
+              </div>
+              <span class="ev-badge eb-4">양호</span>
+              <span class="alloc-hint">×1.0</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl best">★ 15일</div>
+              <div class="ev-dots">
+                <div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div><div class="d d-5"></div>
+              </div>
+              <span class="ev-badge eb-5">최적</span>
+              <span class="alloc-hint">×1.5</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl">1개월</div>
+              <div class="ev-dots">
+                <div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div>
+              </div>
+              <span class="ev-badge eb-4">양호</span>
+              <span class="alloc-hint">×2.0</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl">3개월</div>
+              <div class="ev-dots">
+                <div class="d d-2"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div>
+              </div>
+              <span class="ev-badge eb-2">주의</span>
+              <span class="alloc-hint">×3.0</span>
+            </div>
+            <div class="ev-row">
+              <div class="ev-lbl">6개월</div>
+              <div class="ev-dots">
+                <div class="d d-1"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div>
+              </div>
+              <span class="ev-badge eb-1">위험</span>
+              <span class="alloc-hint">×4.0</span>
+            </div>
+          </div>
+          <div class="ev-legend">
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#27500A"></div>최적</div>
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#639922"></div>양호</div>
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#EF9F27"></div>보통</div>
+            <div class="ev-leg"><div class="ev-leg-dot" style="background:#A32D2D"></div>위험</div>
+          </div>
+        </div>
 
-            // 모바일 메뉴 닫기
-            document.getElementById('mobileNav').classList.remove('active');
+        <div class="detail-section">
+          <div class="detail-title">시장 분위기</div>
+          <div class="mood-row">
+            <div class="mood-chip warm"><div class="ml">수요예측 분위기</div><div class="mv">뜨거움 🔥</div></div>
+            <div class="mood-chip hot"><div class="ml">직전 IPO 시가수익률</div><div class="mv">+189.85%</div></div>
+            <div class="mood-chip neutral"><div class="ml">증시 분위기</div><div class="mv">neutral</div></div>
+            <div class="mood-chip bull"><div class="ml">업종 동향</div><div class="mv">긍정 ↑</div></div>
+          </div>
+          <div style="margin-top:8px;background:#f8fafc;border-radius:8px;padding:10px 14px;font-size:13px;color:#4e5968;border:1px solid #e8ecf0">
+            📰 웨어러블 로봇 고성장 업종·풋백옵션 부여로 흥행 기대, 단 러시아 예산 의존 리스크 상존
+          </div>
+        </div>
 
-            // 스크롤 애니메이션 다시 실행
-            setTimeout(() => {
-                observeElements();
-            }, 100);
-        }
+        <div class="detail-section">
+          <div class="detail-title">종목 기본 정보</div>
+          <div class="info-grid">
+            <div class="info-chip"><div class="il">거래소</div><div class="iv">코스닥</div></div>
+            <div class="info-chip"><div class="il">업종</div><div class="iv">의료용 기기 제조업</div></div>
+            <div class="info-chip"><div class="il">공모가 밴드</div><div class="iv">5,300 ~ 6,000원</div></div>
+            <div class="info-chip"><div class="il">유통주식수 비율</div><div class="iv">32.43%</div></div>
+            <div class="info-chip"><div class="il">장외거래가</div><div class="iv">15,500원 (61% 할인)</div></div>
+            <div class="info-chip"><div class="il">최대주주 지분율</div><div class="iv">40.61%</div></div>
+          </div>
+        </div>
 
-        // 모바일 메뉴 토글
-        function toggleMobileMenu() {
-            const mobileNav = document.getElementById('mobileNav');
-            mobileNav.classList.toggle('active');
-        }
+        <div class="detail-section">
+          <div class="detail-title">✅ 투자 판단근거</div>
+          <div class="reasons">
+            <div class="r-item pos">장외가 15,500원 vs 공모가 상단 6,000원 → 할인율 61.3% '강력 매력' 구간 — 시장이 공모가 대비 2.6배 프리미엄 인정, 시초가 강세 확률 최고</div>
+            <div class="r-item pos">직전 IPO 공모가 결정 98.74%·시가수익률 189.85%·종가수익률 160.57% → 시장 온도 '매우 뜨거움', 수요예측 상단 결정 유력</div>
+            <div class="r-item pos">웨어러블 로봇 CAGR 29.4% 고성장 업종 + 고령화 구조적 수요, 주관사 자발적 풋백옵션 부여로 투자자 보호 강화</div>
+          </div>
+        </div>
 
-        // 스크롤 애니메이션
-        function observeElements() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
+        <div class="detail-section">
+          <div class="detail-title">⚠️ 위험요인</div>
+          <div class="risks">
+            <div class="r-item neg">러시아 정책 예산 의존도 집중 — 지정학적 변수·예산 삭감 시 매출 급감, 단일 국가 편중 수익 구조가 중장기 밸류에이션 디스카운트 요인</div>
+            <div class="r-item neg">기술특례 상장(A/BBB) + 리포트 톤 negative 조합 — 기관 확약률 8.4%로 낮고, 경쟁우위·성장성 근거 미흡해 수요예측 후 기관 이탈 시 상장 초기 변동성 확대 우려</div>
+            <div class="r-item neg">정량(장외가 강세) ↔ 정성(리포트 부정) 괴리 — 장외가 과도 선반영 시 상장 후 급격한 가격 조정 위험</div>
+          </div>
+        </div>
 
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
-            });
-        }
+        <div class="detail-section">
+          <div class="detail-title">📄 리포트 분석</div>
+          <div class="report-row">
+            <div class="rep-chip"><div class="rl">리포트 품질</div><div class="rv">high</div></div>
+            <div class="rep-chip"><div class="rl">리포트 톤</div><div class="rv" style="color:#dc2626">negative</div></div>
+            <div class="rep-chip"><div class="rl">정량정성 일치도</div><div class="rv" style="color:#d97706">낮음</div></div>
+          </div>
+          <div class="caution-box" style="margin-top:10px">
+            <b>특별 주의사항:</b> 정량 지표(장외가 61% 할인, 시장 분위기 최상급)는 강력 매수 신호이나, 정성 지표(리포트 부정 톤, 러시아 의존, 기술특례 낮은 확약률)가 중장기 리스크 경고. 단기(15일) 수익 포착 후 반드시 청산. 시초가 +30% 미만 부진 시 손절 기준선(공모가 -5%) 사전 설정 권장.
+          </div>
+        </div>
 
-        // 페이지 로드 시 실행
-        document.addEventListener('DOMContentLoaded', () => {
-            updateCurrentTime();
-            setInterval(updateCurrentTime, 1000);
-            observeElements();
-        });
+      </div>
+    </div>
 
-        // 윈도우 리사이즈 시 모바일 메뉴 닫기
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.getElementById('mobileNav').classList.remove('active');
-            }
-        });
-    </script>
+  </div><!-- /stocks -->
+
+  <div style="margin-top:20px">
+    <div class="disclaimer">
+      <p><b>⚠️ 투자 위험 고지</b><br>본 분석은 AI 자동 분석 결과이며 최종 투자 결정 시 추가 검토가 필요합니다.</p>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function goPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.tab,.mob-tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tab,.mob-tab').forEach(t => {
+    if(t.textContent.includes(id === 'framework' ? '프레임워크' : '실시간')) t.classList.add('on');
+  });
+  document.getElementById('mobNav').classList.remove('open');
+  setTimeout(runFade, 80);
+}
+function toggleMob() {
+  document.getElementById('mobNav').classList.toggle('open');
+}
+function toggleCard(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function runFade() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+  }, {threshold:.08});
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+}
+function tick() {
+  document.getElementById('clock').textContent =
+    new Date().toLocaleTimeString('ko-KR');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  tick(); setInterval(tick, 1000); runFade();
+});
+</script>
 </body>
 </html>
