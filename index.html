@@ -310,55 +310,103 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Ne
     <h2>🎯 실시간 IPO 분석</h2>
     <p>현재 수요예측 진행 중인 종목 AI 분석</p>
     <div class="meta-row">
-      <div class="meta-item"><div class="meta-l">분석 기준일</div><div class="meta-v">2026년 11월 11일 오전 10시</div></div>
-      <div class="meta-item"><div class="meta-l">다음 업데이트</div><div class="meta-v">2026년 11월 12일 오전 10시</div></div>
-      <div class="meta-item"><div class="meta-l">✨ 분석 완료</div><div class="meta-v">2개 종목</div></div>
+      <div class="meta-item"><div class="meta-l">분석 기준일</div><div class="meta-v">2026년 11월 12일 오전 10시</div></div>
+      <div class="meta-item"><div class="meta-l">다음 업데이트</div><div class="meta-v">2026년 11월 13일 오전 10시</div></div>
+      <div class="meta-item"><div class="meta-l">✨ 분석 완료</div><div class="meta-v">3개 종목</div></div>
     </div>
   </div>
 
   <div class="stocks fade">
 
     <div class="board-card">
-      <div class="board-title">📌 2종목 한눈에 보기 <span class="board-hint">종목을 누르면 상세 카드로 이동해요</span></div>
-      <div class="board-mkt">오늘 증시 분위기 <span class="mkt mkt-bear">bearish</span><span class="board-hint">2종목 분석값 평균 (bullish +1 · neutral 0 · bearish −1 → -0.50)</span></div>
+      <div class="board-title">📌 3종목 한눈에 보기 <span class="board-hint">종목을 누르면 상세 카드로 이동해요</span></div>
+      <div class="board-mkt">오늘 증시 분위기 <span class="mkt mkt-bear">bearish</span><span class="board-hint">3종목 분석값 평균 (bullish +1 · neutral 0 · bearish −1 → -1.00)</span></div>
       <div class="stk-ovw">
         <table class="stk-table">
           <thead><tr><th>종목</th><th>공모가 밴드</th><th>유통물량</th><th>결정</th><th>추천 EV</th><th>업종 동향</th></tr></thead>
-          <tbody><tr onclick="showStock('sp-card-sfc')"><td class="nm">에스에프씨<span class="sec">OLED 소재</span></td><td>31,600~36,100원</td><td>24.17%</td><td><span class="dec-pill pill-green">확약참여 <span class="sub">15일</span></span></td><td class="ev">15일 +37.5</td><td><span class="mkt mkt-bull">긍정</span></td></tr><tr onclick="showStock('sp-card-ucast')"><td class="nm">유캐스트<span class="sec">통신 인프라 장비</span></td><td>19,000~23,000원</td><td>36.81%</td><td><span class="dec-pill pill-orange">미확약참여 <span class="sub">미확약</span></span></td><td class="ev">미확약 +35.0</td><td><span class="mkt mkt-bull">긍정</span></td></tr></tbody>
+          <tbody><tr onclick="showStock('sp-card-adel')"><td class="nm">아델<span class="sec">신약개발 바이오</span></td><td>18,000~25,000원</td><td>36.29%</td><td><span class="dec-pill pill-orange">미확약참여 <span class="sub">미확약</span></span></td><td class="ev">미확약 +20.0</td><td><span class="mkt mkt-neutral">중립</span></td></tr><tr onclick="showStock('sp-card-sfc')"><td class="nm">에스에프씨<span class="sec">OLED 소재</span></td><td>31,600~36,100원</td><td>24.17%</td><td><span class="dec-pill pill-green">확약참여 <span class="sub">15일</span></span></td><td class="ev">15일 +45.0</td><td><span class="mkt mkt-bull">긍정</span></td></tr><tr onclick="showStock('sp-card-ucast')"><td class="nm">유캐스트<span class="sec">통신 인프라 장비</span></td><td>19,000~23,000원</td><td>36.81%</td><td><span class="dec-pill pill-green">확약참여 <span class="sub">15일</span></span></td><td class="ev">15일 +37.5</td><td><span class="mkt mkt-bull">긍정</span></td></tr></tbody>
         </table>
       </div>
-      <div class="board-note">EV = 예상수익률 × 배정배율 · 확약참여 1종목(15일) / 미확약참여 1종목 · 전 종목 6개월 확약은 EV 마이너스</div>
+      <div class="board-note">EV = 예상수익률 × 배정배율 · 확약참여 2종목(15일) / 미확약참여 1종목 · 전 종목 6개월 확약은 EV 마이너스</div>
     </div>
 
-    <div class="stk-tabs"><button class="stk-tab on" data-p="sp-card-sfc" onclick="showStock('sp-card-sfc')"><span class="dot pill-green"></span>에스에프씨</button><button class="stk-tab" data-p="sp-card-ucast" onclick="showStock('sp-card-ucast')"><span class="dot pill-orange"></span>유캐스트</button></div>
-    <div class="stk-panel" id="sp-card-sfc">
+    <div class="stk-tabs"><button class="stk-tab on" data-p="sp-card-adel" onclick="showStock('sp-card-adel')"><span class="dot pill-orange"></span>아델</button><button class="stk-tab" data-p="sp-card-sfc" onclick="showStock('sp-card-sfc')"><span class="dot pill-green"></span>에스에프씨</button><button class="stk-tab" data-p="sp-card-ucast" onclick="showStock('sp-card-ucast')"><span class="dot pill-green"></span>유캐스트</button></div>
+    <div class="stk-panel" id="sp-card-adel">
+    <!-- ── 아델 ── -->
+    <div class="stock-card open" id="card-adel">
+      <div class="sc-header" onclick="toggleCard('card-adel')">
+        <div class="sc-header-left"><div>
+            <div class="sc-name">아델</div>
+            <div class="sc-meta">코스닥 · 상장 예정일 2026년 11월 · 분석 2026-11-12 15:27</div>
+        </div></div>
+        <div class="dec-pill pill-orange">미확약참여 <span class="sub">미확약</span></div>
+        <div class="expand-btn">▾</div>
+      </div>
+      <div class="sc-summary"><div class="s-chip">공모가 <b>18,000~25,000원</b></div><div class="s-chip">추천확약 <b>미확약</b></div><div class="s-chip">유통비율 <b>36.29%</b></div><div class="s-chip">최대주주 <b>33.26%</b></div><div class="s-chip">미확약 EV <b>+20.0</b></div></div>
+      <div class="sc-detail">
+        <div class="detail-section">
+          <div class="lockup-banner">
+            <div class="lb-top">🎯 확약 전략 (EV 기반)</div>
+            <div class="lb-main">추천 확약 기간 · 미확약</div>
+            <div class="lb-sub">증시 bearish(코스피 44% 급락, 10월 새내기주 평균 -9.31%) + 기술특례 확약률 8.4% 저조 + 성장성 '없음' 기재 + 밸류에이션 언급 없음으로 15일 확약 EV(22.5)가 미확약 EV(20.0)와 근접하나 하락 리스크 반영 시 미확약이 우위</div>
+          </div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">확약 기간별 기대값 (EV)</div>
+          <div class="ev-rows"><div class="ev-row"><div class="ev-lbl best">⭐ 미확약</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+20.0</div></div><div class="ev-row"><div class="ev-lbl">15일</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+22.5</div></div><div class="ev-row"><div class="ev-lbl">1개월</div><div class="ev-dots"><div class="d d-3"></div><div class="d d-3"></div><div class="d d-3"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-3">+10.0</div></div><div class="ev-row"><div class="ev-lbl">3개월</div><div class="ev-dots"><div class="d d-2"></div><div class="d d-2"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-2">-30.0</div></div><div class="ev-row"><div class="ev-lbl">6개월</div><div class="ev-dots"><div class="d d-1"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-1">-80.0</div></div></div>
+          <div class="ev-legend"><div class="ev-leg"><div class="ev-leg-dot d-5"></div>매우우수</div><div class="ev-leg"><div class="ev-leg-dot d-4"></div>우수</div><div class="ev-leg"><div class="ev-leg-dot d-3"></div>보통</div><div class="ev-leg"><div class="ev-leg-dot d-2"></div>주의</div><div class="ev-leg"><div class="ev-leg-dot d-1"></div>위험</div></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">📊 시장 분위기</div>
+          <div class="mood-row"><div class="mood-chip bear"><div class="ml">증시 분위기 · 전체 평균</div><div class="mv">bearish</div></div><div class="mood-chip warm"><div class="ml">수요예측 분위기</div><div class="mv">보통</div></div><div class="mood-chip neutral"><div class="ml">업종 동향</div><div class="mv">중립</div></div><div class="mood-chip"><div class="ml">최신 뉴스 요약</div><div class="mv" style="font-size:12px;font-weight:600;line-height:1.5">사노피에 최대 10.4억 달러 기술이전 성과가 핵심 모멘텀이나, 5,400억 밸류 신뢰 확보가 관건</div></div></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">📋 종목 기본 정보</div>
+          <div class="info-grid"><div class="info-chip"><div class="il">거래소</div><div class="iv">코스닥</div></div><div class="info-chip"><div class="il">업종</div><div class="iv">의학 및 약학 연구개발업</div></div><div class="info-chip"><div class="il">공모가 밴드</div><div class="iv">18,000 ~ 25,000원</div></div><div class="info-chip"><div class="il">유통주식수 비율</div><div class="iv">36.29%</div></div><div class="info-chip"><div class="il">장외거래가</div><div class="iv">N/A</div></div><div class="info-chip"><div class="il">최대주주 지분율</div><div class="iv">33.26%</div></div></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">✅ 투자 판단근거</div>
+          <div class="reasons"><div class="r-item pos">【장외거래가】 장외거래가 정보 없음 → 시장 선행 수요 파악 불가, 가중치 30%를 타 지표로 분산 반영. 불확실성 요인으로 작용.</div><div class="r-item pos">【수요예측 분위기】 직전 IPO 공모가 결정 수준 88.89%(보통 구간 85~95%)로 시장 온도는 중립. 상장 분위기는 '뜨거움'이나 10월 새내기주 평균 -9.31%로 최근 급랭 — 분위기 신호 혼재, 선별적 접근 필요.</div><div class="r-item pos">【리포트 인사이트】 독점·차별화 경쟁우위와 사노피 기술이전 성장 포인트는 긍정적. 그러나 성장성 항목 '없음', 리스크·불확실성 명시, 밸류에이션 언급 없음으로 리포트 톤(neutral)이 강한 매수 신호를 주지 않음.</div><div class="r-item pos">【증시/업종 분위기】 코스피 9,000→5,000 44% 급락, 거래대금 57.6% 감소, 개인 순매도 전환 — 명백한 bearish. 코스닥 IPO는 공급 감소 속 시초가 강세(평균 +126.8%)라는 역설적 구조이나 10월 이후 부진 전환. 바이오 투심 위축도 추가 부담.</div><div class="r-item pos">【확약 EV 최적 전략】 시초가 +20% 예상(EV 20.0) vs 15일 확약 +15% 예상(EV 22.5) — EV 차이 2.5p로 미미. bearish 증시에서 15일간 추가 하락 리스크(기술특례 확약률 8.4%, 밸류 부담)가 EV 우위를 상쇄. 미확약 시초가 즉시 매도가 리스크 조정 후 최적.</div></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">⚠️ 위험요인</div>
+          <div class="risks"><div class="r-item neg">기술특례 상장 + A/BBB 등급: 일반상장 대비 확약률 절반 수준(8.4%)으로 기관 장기 보유 의지 약함 → 상장 후 매물 압력 가중</div><div class="r-item neg">코스피 44% 급락·거래대금 급감 등 bearish 매크로 환경에서 5,400억 원대 기업가치 정당화 어려움 — 임상 실패·기술이전 조건 미달 시 급락 가능성</div><div class="r-item neg">유통주식 비율 36.29%로 상대적으로 높아 상장 초기 수급 부담 존재</div><div class="r-item neg">성장성 지표 '없음' 기재 및 밸류에이션 미언급 — 리포트상 중장기 주가 지지 근거 취약</div></div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-title">📄 리포트 분석</div>
+          <div class="report-row"><div class="rep-chip"><div class="rl">리포트 품질</div><div class="rv">high</div></div><div class="rep-chip"><div class="rl">리포트 톤</div><div class="rv">neutral</div></div><div class="rep-chip"><div class="rl">정량정성 일치도</div><div class="rv">보통</div></div></div>
+          <div class="caution-box"><b>특별 주의사항:</b> 사노피 기술이전이라는 강력한 정성 모멘텀과 bearish 증시·기술특례 디스카운트·높은 밸류에이션 부담이 충돌하는 구조 — 시초가 강세(+20% 내외) 후 단기 차익 실현이 현실적이며, 확약으로 15일 이상 보유 시 증시 추가 하락·임상 불확실성에 노출될 위험이 EV 이득을 초과할 수 있으므로 반드시 미확약 참여 후 시초가 즉시 매도 원칙을 고수할 것</div>
+        </div>
+      </div>
+    </div>
+</div><div class="stk-panel" id="sp-card-sfc" hidden>
     <!-- ── 에스에프씨 ── -->
     <div class="stock-card open" id="card-sfc">
       <div class="sc-header" onclick="toggleCard('card-sfc')">
         <div class="sc-header-left"><div>
             <div class="sc-name">에스에프씨</div>
-            <div class="sc-meta">코스피 · 상장 예정일 2026년 11월 · 분석 2026-11-11 10:36</div>
+            <div class="sc-meta">코스피 · 상장 예정일 2026년 11월 · 분석 2026-11-12 15:26</div>
         </div></div>
         <div class="dec-pill pill-green">확약참여 <span class="sub">15일</span></div>
         <div class="expand-btn">▾</div>
       </div>
-      <div class="sc-summary"><div class="s-chip">공모가 <b>31,600~36,100원</b></div><div class="s-chip">추천확약 <b>15일</b></div><div class="s-chip">유통비율 <b>24.17%</b></div><div class="s-chip">최대주주 <b>49.19%</b></div><div class="s-chip">15일 EV <b>+37.5</b></div></div>
+      <div class="sc-summary"><div class="s-chip">공모가 <b>31,600~36,100원</b></div><div class="s-chip">추천확약 <b>15일</b></div><div class="s-chip">유통비율 <b>24.17%</b></div><div class="s-chip">최대주주 <b>49.19%</b></div><div class="s-chip">15일 EV <b>+45.0</b></div></div>
       <div class="sc-detail">
         <div class="detail-section">
           <div class="lockup-banner">
             <div class="lb-top">🎯 확약 전략 (EV 기반)</div>
             <div class="lb-main">추천 확약 기간 · 15일</div>
-            <div class="lb-sub">상장 분위기 뜨거움 기준 시초가 강세 예상, 15일 EV(37.5)가 미확약 EV(25.0)를 상회하며 시장 표준에 부합; 유통물량 37% 부담으로 1개월 이후 주가 압력 예상되어 장기 확약은 EV 역전 위험</div>
+            <div class="lb-sub">상장 분위기 '뜨거움' + 코스피 희소 공모주 프리미엄으로 시초가 강세 예상되나, 코스피 급락 후 불안정한 증시 + 유통물량 37% 부담으로 1개월 이후 주가 지속성 불확실 → 15일 EV 45.0이 전 구간 최고치이며 시장 표준에도 부합</div>
           </div>
         </div>
         <div class="detail-section">
           <div class="detail-title">확약 기간별 기대값 (EV)</div>
-          <div class="ev-rows"><div class="ev-row"><div class="ev-lbl">미확약</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+25.0</div></div><div class="ev-row"><div class="ev-lbl best">⭐ 15일</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+37.5</div></div><div class="ev-row"><div class="ev-lbl">1개월</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+24.0</div></div><div class="ev-row"><div class="ev-lbl">3개월</div><div class="ev-dots"><div class="d d-2"></div><div class="d d-2"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-2">-15.0</div></div><div class="ev-row"><div class="ev-lbl">6개월</div><div class="ev-dots"><div class="d d-1"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-1">-60.0</div></div></div>
+          <div class="ev-rows"><div class="ev-row"><div class="ev-lbl">미확약</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+35.0</div></div><div class="ev-row"><div class="ev-lbl best">⭐ 15일</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+45.0</div></div><div class="ev-row"><div class="ev-lbl">1개월</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+30.0</div></div><div class="ev-row"><div class="ev-lbl">3개월</div><div class="ev-dots"><div class="d d-2"></div><div class="d d-2"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-2">-15.0</div></div><div class="ev-row"><div class="ev-lbl">6개월</div><div class="ev-dots"><div class="d d-1"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-1">-60.0</div></div></div>
           <div class="ev-legend"><div class="ev-leg"><div class="ev-leg-dot d-5"></div>매우우수</div><div class="ev-leg"><div class="ev-leg-dot d-4"></div>우수</div><div class="ev-leg"><div class="ev-leg-dot d-3"></div>보통</div><div class="ev-leg"><div class="ev-leg-dot d-2"></div>주의</div><div class="ev-leg"><div class="ev-leg-dot d-1"></div>위험</div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">📊 시장 분위기</div>
-          <div class="mood-row"><div class="mood-chip bear"><div class="ml">증시 분위기 · 전체 평균</div><div class="mv">bearish</div></div><div class="mood-chip warm"><div class="ml">수요예측 분위기</div><div class="mv">보통</div></div><div class="mood-chip bull"><div class="ml">업종 동향</div><div class="mv">긍정</div></div><div class="mood-chip"><div class="ml">최신 뉴스 요약</div><div class="mv" style="font-size:12px;font-weight:600;line-height:1.5">OLED 핵심 소재 국내 유일 독자 개발 기업으로 상반기 영업이익 258.6% 급증, 단 삼성디스플레이 매출 75.5% 집중 및 유통물량 37% 리스크 공존</div></div></div>
+          <div class="mood-row"><div class="mood-chip bear"><div class="ml">증시 분위기 · 전체 평균</div><div class="mv">bearish</div></div><div class="mood-chip warm"><div class="ml">수요예측 분위기</div><div class="mv">보통</div></div><div class="mood-chip bull"><div class="ml">업종 동향</div><div class="mv">긍정</div></div><div class="mood-chip"><div class="ml">최신 뉴스 요약</div><div class="mv" style="font-size:12px;font-weight:600;line-height:1.5">OLED 핵심소재 독점 개발력 앞세워 11월 코스피 상장 추진, 코스피 두 번째 공모주 희소성 부각되나 증시 변동성·유통물량 37% 리스크 상존</div></div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">📋 종목 기본 정보</div>
@@ -366,16 +414,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Ne
         </div>
         <div class="detail-section">
           <div class="detail-title">✅ 투자 판단근거</div>
-          <div class="reasons"><div class="r-item pos">장외거래가 정보 없음 → 해당 가중치(30%)를 다른 지표(수요예측 분위기·리포트·뉴스)에 분산 반영; 장외 선행 신호 부재는 중립 처리</div><div class="r-item pos">직전 IPO 공모가 결정 수준 88.89%로 시장 분위기 자체는 '보통' 구간이나, 직전 IPO 시가수익률 50.29% + 상장 분위기 '뜨거움' 판정으로 실질 온도는 긍정적; 청약 경쟁률 평균 1,316대 1의 IPO 열기가 에스에프씨 수요예측에도 우호적으로 작용 예상</div><div class="r-item pos">리포트 품질 high·톤 positive, 핵심 키워드 '성장·확대·증가·독점'으로 투자 매력 명확; 다만 성장성 항목 '없음' 표기와 리스크 '하락' 언급은 중장기 모멘텀 지속성에 의문 제기</div><div class="r-item pos">코스피 5,000선 안착(급등 후 조정) + IPO 시장 공급 감소 속 청약 열기 유지로 증시 분위기 neutral 판정; OLED 소재 업종은 삼성디스플레이 투자 사이클과 연동되어 단기 긍정, 중장기 변동성 내재</div><div class="r-item pos">EV 비교 결과: 미확약 25.0 &lt; 15일 37.5 &gt; 1개월 24.0 &gt; 3개월 -15.0 &gt; 6개월 -60.0; 15일 확약이 EV 최고점이며 시장 표준에 부합, 유통물량 37% 해소 시점(상장 후 1개월 전후) 이전 매도가 리스크 최소화 전략</div></div>
+          <div class="reasons"><div class="r-item pos">【장외거래가】 장외거래가 정보 없음 → 해당 가중치(30%)를 다른 지표로 분산 반영. 공모가 밴드 31,600~36,100원 자체의 적정성은 리포트 및 업종 분석으로 보완 판단</div><div class="r-item pos">【수요예측 분위기】 직전 IPO 공모가 결정 수준 88.89%로 '보통' 구간(85~95%)이나, 상장 분위기는 '뜨거움'으로 시초가 수익률 50.29% 기록 → 수요예측 자체는 중립이나 상장 당일 강세 패턴 유효. 단, 10월 이후 신규 상장 6/9곳 공모가 하회(-9.31%) 추세 주의</div><div class="r-item pos">【리포트 인사이트】 high 품질·positive 톤, 핵심 키워드 '성장·확대·증가·독점' → OLED 호스트+도판트 동시 자체 개발 기업은 국내 희소. 단, 성장성 항목 '없음' 표기 및 리스크 '하락' 언급은 밸류에이션 부담 또는 실적 성장 둔화 가능성 시사</div><div class="r-item pos">【증시/업종 분위기】 코스피 6월 9,000선 돌파 후 44% 급락(5,000선)으로 bearish 기조 뚜렷. IPO 시장은 '딜 가뭄 속 쏠림'으로 시초가 평균 +126.8%이나 10월 이후 상장 후 부진 전환 → 코스피 두 번째 공모주 희소성 프리미엄은 수요예측 흥행 요인이나 상장 후 지속성은 제한적</div><div class="r-item pos">【확약 EV 최적 전략】 미확약 EV 35.0 vs 15일 EV 45.0으로 15일이 명확히 우위. 1개월 EV 30.0으로 오히려 하락, 3개월 이후 마이너스 전환 → 15일 확약이 EV 최고치이자 시장 표준으로 최적 선택. 상장 당일 시초가 +35% 예상(코스피 희소 공모주 + 뜨거운 상장 분위기), 15일 후 +30% 예상(일부 차익 실현 물량 소화 후 안정)</div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">⚠️ 위험요인</div>
-          <div class="risks"><div class="r-item neg">삼성디스플레이 매출 집중도 75.5%: 단일 고객 의존 구조로 삼성 OLED 투자 축소·단가 인하 협상 시 실적 급락 가능성, 중장기 주가 하방 압력의 핵심 변수</div><div class="r-item neg">유통가능 물량 37.03%(공모 후 기준): 상장 직후 대규모 매도 압력 상존, 특히 1개월 확약 해제 시점 전후 수급 충격 위험; 코스피 5,000선 박스권 지속 시 수급 부담이 주가 하락으로 직결될 가능성</div></div>
+          <div class="risks"><div class="r-item neg">유통가능물량 37.03%로 상장 직후 대규모 매도 압력 발생 가능 → 시초가 이후 주가 급락 시나리오 현실적</div><div class="r-item neg">코스피 44% 급락 후 5,000선 불안정 + 10월 신규 상장 6/9곳 공모가 하회(-9.31%) 추세 → 증시 전반 bearish 기조가 상장 후 주가 지속성을 심각하게 제약</div><div class="r-item neg">리포트 내 '성장성 없음' 및 '리스크 하락' 언급 → 공모가 밴드 상단 기준 밸류에이션 부담 존재 가능성, 수요예측 공모가 상단 미달 시 시초가 기대치 하향 조정 필요</div><div class="r-item neg">장외거래가 데이터 부재 → 시장 참여자들의 사전 가격 발견 기능 확인 불가, 수요예측 결과 발표 전까지 공모가 적정성 검증 어려움</div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">📄 리포트 분석</div>
           <div class="report-row"><div class="rep-chip"><div class="rl">리포트 품질</div><div class="rv">high</div></div><div class="rep-chip"><div class="rl">리포트 톤</div><div class="rv">positive</div></div><div class="rep-chip"><div class="rl">정량정성 일치도</div><div class="rv">보통</div></div></div>
-          <div class="caution-box"><b>특별 주의사항:</b> 상장 분위기 뜨거움·실적 급증으로 시초가 강세 기대되나, 유통물량 37% + 고객 편중 리스크로 15일 확약 후 즉시 매도 원칙 고수 필수; 공모가 상단(36,100원) 결정 시 밸류에이션 부담 재점검 후 참여 규모 조정 권고</div>
+          <div class="caution-box"><b>특별 주의사항:</b> 수요예측 결과(공모가 확정 수준)를 반드시 확인 후 최종 청약 여부 결정할 것 — 공모가가 밴드 하단(31,600원) 이하로 결정되거나 수요예측 경쟁률이 시장 기대치를 크게 하회할 경우 즉시 전략을 '미확약참여' 또는 '불참'으로 하향 조정. 상장 당일 시초가에서 목표 수익률(+25~35%) 달성 시 15일 확약 만료 전이라도 조기 매도 가능 여부를 운용 규정상 확인 필요. 유통물량 37% 부담을 감안해 포지션 사이즈는 평소 대비 70~80% 수준으로 보수적 운용 권장.</div>
         </div>
       </div>
     </div>
@@ -385,28 +433,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Ne
       <div class="sc-header" onclick="toggleCard('card-ucast')">
         <div class="sc-header-left"><div>
             <div class="sc-name">유캐스트</div>
-            <div class="sc-meta">코스닥 · 상장 예정일 2026년 11월 · 분석 2026-11-11 10:35</div>
+            <div class="sc-meta">코스닥 · 상장 예정일 2026년 11월 · 분석 2026-11-12 15:24</div>
         </div></div>
-        <div class="dec-pill pill-orange">미확약참여 <span class="sub">미확약</span></div>
+        <div class="dec-pill pill-green">확약참여 <span class="sub">15일</span></div>
         <div class="expand-btn">▾</div>
       </div>
-      <div class="sc-summary"><div class="s-chip">공모가 <b>19,000~23,000원</b></div><div class="s-chip">추천확약 <b>미확약</b></div><div class="s-chip">유통비율 <b>36.81%</b></div><div class="s-chip">최대주주 <b>20.15%</b></div><div class="s-chip">미확약 EV <b>+35.0</b></div></div>
+      <div class="sc-summary"><div class="s-chip">공모가 <b>19,000~23,000원</b></div><div class="s-chip">추천확약 <b>15일</b></div><div class="s-chip">유통비율 <b>36.81%</b></div><div class="s-chip">최대주주 <b>20.15%</b></div><div class="s-chip">15일 EV <b>+37.5</b></div></div>
       <div class="sc-detail">
         <div class="detail-section">
           <div class="lockup-banner">
             <div class="lb-top">🎯 확약 전략 (EV 기반)</div>
-            <div class="lb-main">추천 확약 기간 · 미확약</div>
-            <div class="lb-sub">IPO 시초가 평균 126.8% 열기로 단기 수익 기대는 유효하나, 영업손실 지속·공모가 하향·코스피 44% 급락 후 박스권 환경에서 확약 시 주가 하락 리스크가 배율 이득을 상쇄할 가능성이 높아 미확약 시초가 즉시 매도가 최선</div>
+            <div class="lb-main">추천 확약 기간 · 15일</div>
+            <div class="lb-sub">15일 EV(37.5)가 미확약(25.0)보다 우위이며, 증시 약세 국면에서 1개월 이상 장기 보유 시 주가 하락 리스크가 배율 이득을 상쇄할 가능성이 높아 시장 표준인 15일 확약이 최적</div>
           </div>
         </div>
         <div class="detail-section">
           <div class="detail-title">확약 기간별 기대값 (EV)</div>
-          <div class="ev-rows"><div class="ev-row"><div class="ev-lbl best">⭐ 미확약</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+35.0</div></div><div class="ev-row"><div class="ev-lbl">15일</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+22.5</div></div><div class="ev-row"><div class="ev-lbl">1개월</div><div class="ev-dots"><div class="d d-3"></div><div class="d d-3"></div><div class="d d-3"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-3">+10.0</div></div><div class="ev-row"><div class="ev-lbl">3개월</div><div class="ev-dots"><div class="d d-2"></div><div class="d d-2"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-2">-30.0</div></div><div class="ev-row"><div class="ev-lbl">6개월</div><div class="ev-dots"><div class="d d-1"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-1">-80.0</div></div></div>
+          <div class="ev-rows"><div class="ev-row"><div class="ev-lbl">미확약</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+25.0</div></div><div class="ev-row"><div class="ev-lbl best">⭐ 15일</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+37.5</div></div><div class="ev-row"><div class="ev-lbl">1개월</div><div class="ev-dots"><div class="d d-4"></div><div class="d d-4"></div><div class="d d-4"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-4">+24.0</div></div><div class="ev-row"><div class="ev-lbl">3개월</div><div class="ev-dots"><div class="d d-2"></div><div class="d d-2"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-2">-15.0</div></div><div class="ev-row"><div class="ev-lbl">6개월</div><div class="ev-dots"><div class="d d-1"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div></div><div class="ev-badge eb-1">-60.0</div></div></div>
           <div class="ev-legend"><div class="ev-leg"><div class="ev-leg-dot d-5"></div>매우우수</div><div class="ev-leg"><div class="ev-leg-dot d-4"></div>우수</div><div class="ev-leg"><div class="ev-leg-dot d-3"></div>보통</div><div class="ev-leg"><div class="ev-leg-dot d-2"></div>주의</div><div class="ev-leg"><div class="ev-leg-dot d-1"></div>위험</div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">📊 시장 분위기</div>
-          <div class="mood-row"><div class="mood-chip bear"><div class="ml">증시 분위기 · 전체 평균</div><div class="mv">bearish</div></div><div class="mood-chip warm"><div class="ml">수요예측 분위기</div><div class="mv">보통</div></div><div class="mood-chip bull"><div class="ml">업종 동향</div><div class="mv">긍정</div></div><div class="mood-chip"><div class="ml">최신 뉴스 요약</div><div class="mv" style="font-size:12px;font-weight:600;line-height:1.5">공모가 하향 조정 후 수요예측 진행 중, AI·5G·6G 인프라 성장 테마 부각되나 영업손실 지속이 핵심 리스크</div></div></div>
+          <div class="mood-row"><div class="mood-chip bear"><div class="ml">증시 분위기 · 전체 평균</div><div class="mv">bearish</div></div><div class="mood-chip warm"><div class="ml">수요예측 분위기</div><div class="mv">보통</div></div><div class="mood-chip bull"><div class="ml">업종 동향</div><div class="mv">긍정</div></div><div class="mood-chip"><div class="ml">최신 뉴스 요약</div><div class="mv" style="font-size:12px;font-weight:600;line-height:1.5">금감원 정정 요구로 공모가 하향 조정됐으나 기관 수요예측 93.83%가 상단 이상 제시, 산업용 특화망·방산 해외 확대 전략 발표로 관심 집중</div></div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">📋 종목 기본 정보</div>
@@ -414,16 +462,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Ne
         </div>
         <div class="detail-section">
           <div class="detail-title">✅ 투자 판단근거</div>
-          <div class="reasons"><div class="r-item pos">장외거래가 정보 없음 → 가중치 30% 활용 불가, 나머지 지표에 재배분하여 판단 보수화 필요</div><div class="r-item pos">직전 IPO 공모가 결정 수준 88.89%(보통 구간)로 시장 수요예측 분위기는 중립, 단 상장 분위기는 '뜨거움'·시초가 수익률 50.29%로 단기 시초가 수익 기대는 유효</div><div class="r-item pos">리포트 품질 high·톤 positive, 성장·확대·경쟁력·차별화 키워드 긍정적이나 성장성 수치 미언급·밸류에이션 미언급으로 정량 근거 부족, 리스크 키워드 명시로 주의 필요</div><div class="r-item pos">코스피 고점 대비 44% 급락·거래대금 57.6% 감소로 증시 전반 bearish, IPO 시장은 공급 감소 속 쏠림으로 시초가 평균 126.8% 과열이나 상장 후 지속성 불확실 / 업종(AI·5G·6G 통신 인프라)은 중장기 성장 테마로 긍정</div><div class="r-item pos">EV 비교 결과 미확약 EV 35.0이 15일 EV 22.5를 상회 → bearish 증시 환경에서 확약 후 주가 하락 리스크가 배율 이득을 초과, 미확약 시초가 즉시 매도가 EV 최적</div></div>
+          <div class="reasons"><div class="r-item pos">장외거래가 정보 없음 → 해당 가중치(30%) 판단 불가, 나머지 지표에 가중 재배분하여 보수적으로 반영</div><div class="r-item pos">직전 IPO 공모가 결정 수준 88.89%(보통 구간)이나 상장 분위기는 '뜨거움', 직전 시초가 수익률 50.29%로 단기 상장 열기는 살아있음 — 단, 10월 새내기주 평균 -9.31% 부진 구간 진입 주의</div><div class="r-item pos">리포트 품질 high·톤 positive, 성장·확대·경쟁력·차별화 키워드 명확하나 밸류에이션 언급 없고 리스크 키워드 존재 — 정성 신뢰도는 높으나 가격 적정성 검증 불가</div><div class="r-item pos">코스피 고점 대비 44% 급락·거래대금 57.6% 감소로 증시 전반 bearish, IPO 시장은 공급 감소 속 경쟁률 1,316:1로 역설적 열기 유지 — 단기 수급은 유리하나 중장기 주가 지지력 약함</div><div class="r-item pos">15일 EV 37.5로 전 구간 최고, 1개월 EV 24.0으로 미확약(25.0)보다 낮아 15일 확약이 수익·리스크 균형상 명확한 우위 — 기술특례 상장·확약률 열위(8.4%) 감안 시 장기 확약은 비효율</div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">⚠️ 위험요인</div>
-          <div class="risks"><div class="r-item neg">영업손실 지속 기술특례 상장 기업으로 성장성 입증 실패 시 상장 후 급격한 주가 하락 가능성, 확약 보유 시 손실 확대 위험</div><div class="r-item neg">코스피 44% 급락 후 박스권 지속·개인 순매도 전환 등 증시 전반 약세로 상장 후 수급 이탈 시 시초가 이후 빠른 주가 되돌림 위험</div><div class="r-item neg">공모가 밴드 하향 조정(21,000~26,000 → 19,000~23,000) 이력으로 기관 수요 확보 불확실성 존재, 수요예측 결과에 따라 공모가 추가 하향 또는 흥행 미달 가능성</div><div class="r-item neg">유통주식수 비율 36.81%로 상장 직후 매도 물량 부담 상존, 최대주주 지분율 20.15%로 경영권 안정성 다소 취약</div></div>
+          <div class="risks"><div class="r-item neg">기술특례 상장으로 실적 가시성 낮고 확약률 시장 평균(8.4%) 열위 — 기관 의무보유 해제 후 매물 출회 시 주가 급락 가능성</div><div class="r-item neg">금감원 정정 요구·공모가 하향 조정 이력 존재, 2028년 성장 전망 실현 불확실(국방 기술→민간 매출 연결 검증 미완), 코스닥 신규 상장 부진(10월 6/9곳 공모가 하회) 국면과 증시 전반 약세 지속</div></div>
         </div>
         <div class="detail-section">
           <div class="detail-title">📄 리포트 분석</div>
           <div class="report-row"><div class="rep-chip"><div class="rl">리포트 품질</div><div class="rv">high</div></div><div class="rep-chip"><div class="rl">리포트 톤</div><div class="rv">positive</div></div><div class="rep-chip"><div class="rl">정량정성 일치도</div><div class="rv">보통</div></div></div>
-          <div class="caution-box"><b>특별 주의사항:</b> IPO 시장 시초가 열기(평균 126.8%)로 단기 수익 기회는 존재하나, 영업손실 지속·공모가 하향·코스피 bearish 삼중 악재 환경에서 확약은 금물 — 반드시 미확약으로 참여하여 시초가 또는 상장 당일 강세 구간에서 즉시 매도하는 단기 출구 전략을 사전에 확정할 것</div>
+          <div class="caution-box"><b>특별 주의사항:</b> 기관 수요예측 열기(93.83% 상단 이상)는 긍정적이나 공모가 하향 조정 이력·기술특례 상장·증시 약세 3중 리스크 공존 — 15일 확약으로 배정 배율 확보 후 상장 당일~15일 이내 분할 매도 원칙 준수, 1개월 이상 보유 시 EV 역전으로 손실 구간 진입 가능성 높음</div>
         </div>
       </div>
     </div>
